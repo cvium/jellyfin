@@ -242,7 +242,6 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             }
 
             DashboardPage.renderUrls(view, systemInfo);
-            DashboardPage.renderPendingInstallations(view, systemInfo);
             DashboardPage.renderPaths(view, systemInfo);
             renderHasPendingRestart(view, apiClient, systemInfo.HasPendingRestart);
         });
@@ -425,32 +424,6 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
             page.querySelector("#logPath").innerHTML = systemInfo.LogPath;
             page.querySelector("#transcodingTemporaryPath").innerHTML = systemInfo.TranscodingTempPath;
             page.querySelector("#metadataPath").innerHTML = systemInfo.InternalMetadataPath;
-        },
-        reloadNews: function (page) {
-            var query = {
-                StartIndex: DashboardPage.newsStartIndex,
-                Limit: 4
-            };
-            ApiClient.getProductNews(query).then(function (result) {
-                var html = result.Items.map(function (item) {
-                    var itemHtml = "";
-                    itemHtml += '<a class="clearLink" href="' + item.Link + '" target="_blank">';
-                    itemHtml += '<div class="listItem listItem-border">';
-                    itemHtml += '<i class="listItemIcon md-icon">dvr</i>';
-                    itemHtml += '<div class="listItemBody two-line">';
-                    itemHtml += '<div class="listItemBodyText">';
-                    itemHtml += item.Title;
-                    itemHtml += "</div>";
-                    itemHtml += '<div class="listItemBodyText secondary">';
-                    var date = datetime.parseISO8601Date(item.Date, true);
-                    itemHtml += datetime.toLocaleDateString(date);
-                    itemHtml += "</div>";
-                    itemHtml += "</div>";
-                    itemHtml += "</div>";
-                    return itemHtml += "</a>";
-                });
-                page.querySelector(".latestNewsItems").innerHTML = html.join("");
-            });
         },
         startInterval: function (apiClient) {
             apiClient.sendMessage("SessionsStart", "0,1500");
@@ -797,21 +770,6 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 externalUrlElem.classList.add("hide");
             }
         },
-        renderPendingInstallations: function (page, systemInfo) {
-            if (!systemInfo.CompletedInstallations.length) {
-                return void page.querySelector("#collapsiblePendingInstallations").classList.add("hide");
-            }
-
-            page.querySelector("#collapsiblePendingInstallations").classList.remove("hide");
-            var html = "";
-
-            for (var i__s = 0, length = systemInfo.CompletedInstallations.length; i__s < length; i__s++) {
-                var update = systemInfo.CompletedInstallations[i__s];
-                html += "<div><strong>" + update.Name + "</strong> (" + update.Version + ")</div>";
-            }
-
-            page.querySelector("#pendingInstallations").innerHTML = html;
-        },
         // TODO cvium: remove this or reuse when plugins are in place
         // renderPluginUpdateInfo: function (page, forceUpdate) {
         //     if (!(!forceUpdate && DashboardPage.lastPluginUpdateCheck && new Date().getTime() - DashboardPage.lastPluginUpdateCheck < 18e5)) {
@@ -952,7 +910,6 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 DashboardPage.lastAppUpdateCheck = null;
                 DashboardPage.lastPluginUpdateCheck = null;
                 reloadSystemInfo(page, ApiClient);
-                DashboardPage.reloadNews(page);
 
                 if (!page.userActivityLog) {
                     page.userActivityLog = new ActivityLog({
@@ -971,9 +928,9 @@ define(["datetime", "events", "itemHelper", "serverNotifications", "dom", "globa
                 }
 
                 //FIXME: There is no jellyfin swagger instance, as such this url is currently invalid
-                var swaggerUrl = "http://swagger.jellyfin.media?url=" + ApiClient.getUrl("openapi");
-                swaggerUrl = swaggerUrl + "&api_key=" + ApiClient.accessToken();
-                page.querySelector(".swaggerLink").setAttribute("href", swaggerUrl);
+                // var swaggerUrl = "http://swagger.jellyfin.media?url=" + ApiClient.getUrl("openapi");
+                // swaggerUrl = swaggerUrl + "&api_key=" + ApiClient.accessToken();
+                // page.querySelector(".swaggerLink").setAttribute("href", swaggerUrl);
                 refreshActiveRecordings(view, apiClient);
             }
         });
