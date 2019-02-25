@@ -9,8 +9,10 @@ using MediaBrowser.Controller.Net;
 using MediaBrowser.Controller.Security;
 using MediaBrowser.Controller.Session;
 using MediaBrowser.Model.Dto;
-using MediaBrowser.Model.Services;
 using MediaBrowser.Model.Session;
+using ServiceStack;
+using AuthenticationInfo = MediaBrowser.Controller.Security.AuthenticationInfo;
+using IReturnVoid = MediaBrowser.Model.Services.IReturnVoid;
 
 namespace MediaBrowser.Api.Session
 {
@@ -19,12 +21,12 @@ namespace MediaBrowser.Api.Session
     /// </summary>
     [Route("/Sessions", "GET", Summary = "Gets a list of sessions")]
     [Authenticated]
-    public class GetSessions : IReturn<SessionInfo[]>
+    public class GetSessions : Model.Services.IReturn<SessionInfo[]>
     {
-        [ApiMember(Name = "ControllableByUserId", Description = "Optional. Filter by sessions that a given user is allowed to remote control.", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "ControllableByUserId", Description = "Optional. Filter by sessions that a given user is allowed to remote control.", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
         public Guid ControllableByUserId { get; set; }
 
-        [ApiMember(Name = "DeviceId", Description = "Optional. Filter by device id.", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "DeviceId", Description = "Optional. Filter by device id.", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
         public string DeviceId { get; set; }
 
         public int? ActiveWithinSeconds { get; set; }
@@ -41,28 +43,28 @@ namespace MediaBrowser.Api.Session
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "Id", Description = "Session Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Session Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
         public string Id { get; set; }
 
         /// <summary>
         /// Artist, Genre, Studio, Person, or any kind of BaseItem
         /// </summary>
         /// <value>The type of the item.</value>
-        [ApiMember(Name = "ItemType", Description = "The type of item to browse to.", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "ItemType", Description = "The type of item to browse to.", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "POST")]
         public string ItemType { get; set; }
 
         /// <summary>
         /// Artist name, genre name, item Id, etc
         /// </summary>
         /// <value>The item identifier.</value>
-        [ApiMember(Name = "ItemId", Description = "The Id of the item.", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "ItemId", Description = "The Id of the item.", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "POST")]
         public string ItemId { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the item.
         /// </summary>
         /// <value>The name of the item.</value>
-        [ApiMember(Name = "ItemName", Description = "The name of the item.", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "ItemName", Description = "The name of the item.", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "POST")]
         public string ItemName { get; set; }
     }
 
@@ -74,7 +76,7 @@ namespace MediaBrowser.Api.Session
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "Id", Description = "Session Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Session Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
         public string Id { get; set; }
     }
 
@@ -86,7 +88,7 @@ namespace MediaBrowser.Api.Session
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "Id", Description = "Session Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Session Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
         public string Id { get; set; }
     }
 
@@ -98,14 +100,14 @@ namespace MediaBrowser.Api.Session
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "Id", Description = "Session Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Session Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
         public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the command.
         /// </summary>
         /// <value>The play command.</value>
-        [ApiMember(Name = "Command", Description = "The command to send.", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Command", Description = "The command to send.", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
         public string Command { get; set; }
     }
 
@@ -117,14 +119,14 @@ namespace MediaBrowser.Api.Session
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "Id", Description = "Session Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Session Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
         public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the command.
         /// </summary>
         /// <value>The play command.</value>
-        [ApiMember(Name = "Command", Description = "The command to send.", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Command", Description = "The command to send.", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
         public string Command { get; set; }
     }
 
@@ -136,7 +138,7 @@ namespace MediaBrowser.Api.Session
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "Id", Description = "Session Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Session Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
         public string Id { get; set; }
     }
 
@@ -148,16 +150,16 @@ namespace MediaBrowser.Api.Session
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "Id", Description = "Session Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Session Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
         public string Id { get; set; }
 
-        [ApiMember(Name = "Text", Description = "The message text.", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Text", Description = "The message text.", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "POST")]
         public string Text { get; set; }
 
-        [ApiMember(Name = "Header", Description = "The message header.", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Header", Description = "The message header.", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "POST")]
         public string Header { get; set; }
 
-        [ApiMember(Name = "TimeoutMs", Description = "The message timeout. If omitted the user will have to confirm viewing the message.", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "TimeoutMs", Description = "The message timeout. If omitted the user will have to confirm viewing the message.", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "POST")]
         public long? TimeoutMs { get; set; }
     }
 
@@ -165,10 +167,10 @@ namespace MediaBrowser.Api.Session
     [Authenticated]
     public class AddUserToSession : IReturnVoid
     {
-        [ApiMember(Name = "Id", Description = "Session Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Session Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
         public string Id { get; set; }
 
-        [ApiMember(Name = "UserId", Description = "UserId Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "UserId", Description = "UserId Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
         public string UserId { get; set; }
     }
 
@@ -176,10 +178,10 @@ namespace MediaBrowser.Api.Session
     [Authenticated]
     public class RemoveUserFromSession : IReturnVoid
     {
-        [ApiMember(Name = "Id", Description = "Session Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Session Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
         public string Id { get; set; }
 
-        [ApiMember(Name = "UserId", Description = "UserId Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "UserId", Description = "UserId Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
         public string UserId { get; set; }
     }
 
@@ -191,22 +193,22 @@ namespace MediaBrowser.Api.Session
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "Id", Description = "Session Id", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Session Id", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "POST")]
         public string Id { get; set; }
 
-        [ApiMember(Name = "PlayableMediaTypes", Description = "A list of playable media types, comma delimited. Audio, Video, Book, Photo.", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "PlayableMediaTypes", Description = "A list of playable media types, comma delimited. Audio, Video, Book, Photo.", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "POST")]
         public string PlayableMediaTypes { get; set; }
 
-        [ApiMember(Name = "SupportedCommands", Description = "A list of supported remote control commands, comma delimited", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "SupportedCommands", Description = "A list of supported remote control commands, comma delimited", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "POST")]
         public string SupportedCommands { get; set; }
 
-        [ApiMember(Name = "SupportsMediaControl", Description = "Determines whether media can be played remotely.", IsRequired = false, DataType = "bool", ParameterType = "query", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "SupportsMediaControl", Description = "Determines whether media can be played remotely.", IsRequired = false, DataType = "bool", ParameterType = "query", Verb = "POST")]
         public bool SupportsMediaControl { get; set; }
 
-        [ApiMember(Name = "SupportsSync", Description = "Determines whether sync is supported.", IsRequired = false, DataType = "bool", ParameterType = "query", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "SupportsSync", Description = "Determines whether sync is supported.", IsRequired = false, DataType = "bool", ParameterType = "query", Verb = "POST")]
         public bool SupportsSync { get; set; }
 
-        [ApiMember(Name = "SupportsPersistentIdentifier", Description = "Determines whether the device supports a unique identifier.", IsRequired = false, DataType = "bool", ParameterType = "query", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "SupportsPersistentIdentifier", Description = "Determines whether the device supports a unique identifier.", IsRequired = false, DataType = "bool", ParameterType = "query", Verb = "POST")]
         public bool SupportsPersistentIdentifier { get; set; }
 
         public PostCapabilities()
@@ -223,7 +225,7 @@ namespace MediaBrowser.Api.Session
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "Id", Description = "Session Id", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Session Id", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "POST")]
         public string Id { get; set; }
     }
 
@@ -241,7 +243,7 @@ namespace MediaBrowser.Api.Session
 
     [Route("/Auth/Providers", "GET")]
     [Authenticated(Roles = "Admin")]
-    public class GetAuthProviders : IReturn<NameIdPair[]>
+    public class GetAuthProviders : Model.Services.IReturn<NameIdPair[]>
     {
     }
 
@@ -249,7 +251,7 @@ namespace MediaBrowser.Api.Session
     [Authenticated(Roles = "Admin")]
     public class RevokeKey
     {
-        [ApiMember(Name = "Key", Description = "Auth Key", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "DELETE")]
+        [Model.Services.ApiMember(Name = "Key", Description = "Auth Key", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "DELETE")]
         public string Key { get; set; }
     }
 
@@ -257,7 +259,7 @@ namespace MediaBrowser.Api.Session
     [Authenticated(Roles = "Admin")]
     public class CreateKey
     {
-        [ApiMember(Name = "App", Description = "App", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "App", Description = "App", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "POST")]
         public string App { get; set; }
     }
 

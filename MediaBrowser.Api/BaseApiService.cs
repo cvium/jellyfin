@@ -11,6 +11,7 @@ using MediaBrowser.Model.Entities;
 using MediaBrowser.Model.Services;
 using MediaBrowser.Model.Querying;
 using Microsoft.Extensions.Logging;
+using ServiceStack;
 
 namespace MediaBrowser.Api
 {

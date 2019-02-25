@@ -11,6 +11,8 @@ using MediaBrowser.Controller.Net;
 using MediaBrowser.Model.Plugins;
 using MediaBrowser.Model.Serialization;
 using MediaBrowser.Model.Services;
+using ServiceStack;
+using IReturnVoid = MediaBrowser.Model.Services.IReturnVoid;
 
 namespace MediaBrowser.Api
 {
@@ -19,7 +21,7 @@ namespace MediaBrowser.Api
     /// </summary>
     [Route("/Plugins", "GET", Summary = "Gets a list of currently installed plugins")]
     [Authenticated]
-    public class GetPlugins : IReturn<PluginInfo[]>
+    public class GetPlugins : Model.Services.IReturn<PluginInfo[]>
     {
         public bool? IsAppStoreEnabled { get; set; }
     }
@@ -35,7 +37,7 @@ namespace MediaBrowser.Api
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "Id", Description = "Plugin Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "DELETE")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Plugin Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "DELETE")]
         public string Id { get; set; }
     }
 
@@ -50,7 +52,7 @@ namespace MediaBrowser.Api
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "Id", Description = "Plugin Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Plugin Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string Id { get; set; }
     }
 
@@ -65,7 +67,7 @@ namespace MediaBrowser.Api
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "Id", Description = "Plugin Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Plugin Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
         public string Id { get; set; }
 
         /// <summary>
@@ -77,37 +79,37 @@ namespace MediaBrowser.Api
 
     //TODO Once we have proper apps and plugins and decide to break compatibility with paid plugins,
     // delete all these registration endpoints. They are only kept for compatibility.
-    [Route("/Registrations/{Name}", "GET", Summary = "Gets registration status for a feature", IsHidden = true)]
+    [Route("/Registrations/{Name}", "GET", Summary = "Gets registration status for a feature")]
     [Authenticated]
-    public class GetRegistration : IReturn<RegistrationInfo>
+    public class GetRegistration : Model.Services.IReturn<RegistrationInfo>
     {
-        [ApiMember(Name = "Name", Description = "Feature Name", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Name", Description = "Feature Name", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string Name { get; set; }
     }
 
     /// <summary>
     /// Class GetPluginSecurityInfo
     /// </summary>
-    [Route("/Plugins/SecurityInfo", "GET", Summary = "Gets plugin registration information", IsHidden = true)]
+    [Route("/Plugins/SecurityInfo", "GET", Summary = "Gets plugin registration information")]
     [Authenticated]
-    public class GetPluginSecurityInfo : IReturn<PluginSecurityInfo>
+    public class GetPluginSecurityInfo : Model.Services.IReturn<PluginSecurityInfo>
     {
     }
 
     /// <summary>
     /// Class UpdatePluginSecurityInfo
     /// </summary>
-    [Route("/Plugins/SecurityInfo", "POST", Summary = "Updates plugin registration information", IsHidden = true)]
+    [Route("/Plugins/SecurityInfo", "POST", Summary = "Updates plugin registration information")]
     [Authenticated(Roles = "Admin")]
     public class UpdatePluginSecurityInfo : PluginSecurityInfo, IReturnVoid
     {
     }
 
-    [Route("/Plugins/RegistrationRecords/{Name}", "GET", Summary = "Gets registration status for a feature", IsHidden = true)]
+    [Route("/Plugins/RegistrationRecords/{Name}", "GET", Summary = "Gets registration status for a feature")]
     [Authenticated]
     public class GetRegistrationStatus
     {
-        [ApiMember(Name = "Name", Description = "Feature Name", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Name", Description = "Feature Name", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string Name { get; set; }
     }
 

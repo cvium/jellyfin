@@ -2,31 +2,32 @@ using System.Linq;
 using MediaBrowser.Controller.Dlna;
 using MediaBrowser.Controller.Net;
 using MediaBrowser.Model.Dlna;
-using MediaBrowser.Model.Services;
+using ServiceStack;
+using IReturnVoid = MediaBrowser.Model.Services.IReturnVoid;
 
 namespace Emby.Dlna.Api
 {
     [Route("/Dlna/ProfileInfos", "GET", Summary = "Gets a list of profiles")]
-    public class GetProfileInfos : IReturn<DeviceProfileInfo[]>
+    public class GetProfileInfos : MediaBrowser.Model.Services.IReturn<DeviceProfileInfo[]>
     {
     }
 
     [Route("/Dlna/Profiles/{Id}", "DELETE", Summary = "Deletes a profile")]
     public class DeleteProfile : IReturnVoid
     {
-        [ApiMember(Name = "Id", Description = "Profile Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "DELETE")]
+        [MediaBrowser.Model.Services.ApiMember(Name = "Id", Description = "Profile Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "DELETE")]
         public string Id { get; set; }
     }
 
     [Route("/Dlna/Profiles/Default", "GET", Summary = "Gets the default profile")]
-    public class GetDefaultProfile : IReturn<DeviceProfile>
+    public class GetDefaultProfile : MediaBrowser.Model.Services.IReturn<DeviceProfile>
     {
     }
 
     [Route("/Dlna/Profiles/{Id}", "GET", Summary = "Gets a single profile")]
-    public class GetProfile : IReturn<DeviceProfile>
+    public class GetProfile : MediaBrowser.Model.Services.IReturn<DeviceProfile>
     {
-        [ApiMember(Name = "Id", Description = "Profile Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [MediaBrowser.Model.Services.ApiMember(Name = "Id", Description = "Profile Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string Id { get; set; }
     }
 

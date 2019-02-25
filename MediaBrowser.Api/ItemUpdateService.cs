@@ -15,31 +15,32 @@ using MediaBrowser.Model.Dto;
 using MediaBrowser.Model.Entities;
 using MediaBrowser.Model.Globalization;
 using MediaBrowser.Model.IO;
-using MediaBrowser.Model.Services;
+using ServiceStack;
+using IReturnVoid = MediaBrowser.Model.Services.IReturnVoid;
 
 namespace MediaBrowser.Api
 {
     [Route("/Items/{ItemId}", "POST", Summary = "Updates an item")]
     public class UpdateItem : BaseItemDto, IReturnVoid
     {
-        [ApiMember(Name = "ItemId", Description = "The id of the item", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "ItemId", Description = "The id of the item", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
         public string ItemId { get; set; }
     }
 
     [Route("/Items/{ItemId}/MetadataEditor", "GET", Summary = "Gets metadata editor info for an item")]
-    public class GetMetadataEditorInfo : IReturn<MetadataEditorInfo>
+    public class GetMetadataEditorInfo : Model.Services.IReturn<MetadataEditorInfo>
     {
-        [ApiMember(Name = "ItemId", Description = "The id of the item", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "ItemId", Description = "The id of the item", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string ItemId { get; set; }
     }
 
     [Route("/Items/{ItemId}/ContentType", "POST", Summary = "Updates an item's content type")]
     public class UpdateItemContentType : IReturnVoid
     {
-        [ApiMember(Name = "ItemId", Description = "The id of the item", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "ItemId", Description = "The id of the item", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
         public Guid ItemId { get; set; }
 
-        [ApiMember(Name = "ContentType", Description = "The content type of the item", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "ContentType", Description = "The content type of the item", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "POST")]
         public string ContentType { get; set; }
     }
 

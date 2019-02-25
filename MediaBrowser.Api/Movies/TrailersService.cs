@@ -7,12 +7,12 @@ using MediaBrowser.Model.Dto;
 using MediaBrowser.Model.Globalization;
 using MediaBrowser.Model.Querying;
 using MediaBrowser.Model.Serialization;
-using MediaBrowser.Model.Services;
+using ServiceStack;
 
 namespace MediaBrowser.Api.Movies
 {
     [Route("/Trailers", "GET", Summary = "Finds movies and trailers similar to a given trailer.")]
-    public class Getrailers : BaseItemsRequest, IReturn<QueryResult<BaseItemDto>>
+    public class Getrailers : BaseItemsRequest, Model.Services.IReturn<QueryResult<BaseItemDto>>
     {
     }
 

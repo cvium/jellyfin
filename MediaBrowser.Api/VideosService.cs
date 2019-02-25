@@ -10,22 +10,23 @@ using MediaBrowser.Controller.Persistence;
 using MediaBrowser.Model.Dto;
 using MediaBrowser.Model.IO;
 using MediaBrowser.Model.Querying;
-using MediaBrowser.Model.Services;
+using ServiceStack;
+using IReturnVoid = MediaBrowser.Model.Services.IReturnVoid;
 
 namespace MediaBrowser.Api
 {
     [Route("/Videos/{Id}/AdditionalParts", "GET", Summary = "Gets additional parts for a video.")]
     [Authenticated]
-    public class GetAdditionalParts : IReturn<QueryResult<BaseItemDto>>
+    public class GetAdditionalParts : Model.Services.IReturn<QueryResult<BaseItemDto>>
     {
-        [ApiMember(Name = "UserId", Description = "Optional. Filter by user id, and attach user data", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "UserId", Description = "Optional. Filter by user id, and attach user data", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
         public Guid UserId { get; set; }
 
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "Id", Description = "Item Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Item Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string Id { get; set; }
     }
 
@@ -33,7 +34,7 @@ namespace MediaBrowser.Api
     [Authenticated(Roles = "Admin")]
     public class DeleteAlternateSources : IReturnVoid
     {
-        [ApiMember(Name = "Id", Description = "Item Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "DELETE")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Item Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "DELETE")]
         public string Id { get; set; }
     }
 
@@ -41,7 +42,7 @@ namespace MediaBrowser.Api
     [Authenticated(Roles = "Admin")]
     public class MergeVersions : IReturnVoid
     {
-        [ApiMember(Name = "Ids", Description = "Item id list. This allows multiple, comma delimited.", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "POST", AllowMultiple = true)]
+        [Model.Services.ApiMember(Name = "Ids", Description = "Item id list. This allows multiple, comma delimited.", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "POST", AllowMultiple = true)]
         public string Ids { get; set; }
     }
 

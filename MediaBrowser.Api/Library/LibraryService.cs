@@ -27,8 +27,9 @@ using MediaBrowser.Model.Extensions;
 using MediaBrowser.Model.Globalization;
 using MediaBrowser.Model.IO;
 using MediaBrowser.Model.Querying;
-using MediaBrowser.Model.Services;
 using Microsoft.Extensions.Logging;
+using ServiceStack;
+using IReturnVoid = MediaBrowser.Model.Services.IReturnVoid;
 
 namespace MediaBrowser.Api.Library
 {
@@ -40,7 +41,7 @@ namespace MediaBrowser.Api.Library
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "Id", Description = "Item Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Item Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string Id { get; set; }
     }
 
@@ -49,27 +50,27 @@ namespace MediaBrowser.Api.Library
     /// </summary>
     [Route("/Items/{Id}/CriticReviews", "GET", Summary = "Gets critic reviews for an item")]
     [Authenticated]
-    public class GetCriticReviews : IReturn<QueryResult<BaseItemDto>>
+    public class GetCriticReviews : Model.Services.IReturn<QueryResult<BaseItemDto>>
     {
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "Id", Description = "Item Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Item Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string Id { get; set; }
 
         /// <summary>
         /// Skips over a given number of items within the results. Use for paging.
         /// </summary>
         /// <value>The start index.</value>
-        [ApiMember(Name = "StartIndex", Description = "Optional. The record index to start at. All items with a lower index will be dropped from the results.", IsRequired = false, DataType = "int", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "StartIndex", Description = "Optional. The record index to start at. All items with a lower index will be dropped from the results.", IsRequired = false, DataType = "int", ParameterType = "query", Verb = "GET")]
         public int? StartIndex { get; set; }
 
         /// <summary>
         /// The maximum number of items to return
         /// </summary>
         /// <value>The limit.</value>
-        [ApiMember(Name = "Limit", Description = "Optional. The maximum number of records to return", IsRequired = false, DataType = "int", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Limit", Description = "Optional. The maximum number of records to return", IsRequired = false, DataType = "int", ParameterType = "query", Verb = "GET")]
         public int? Limit { get; set; }
     }
 
@@ -78,23 +79,23 @@ namespace MediaBrowser.Api.Library
     /// </summary>
     [Route("/Items/{Id}/ThemeSongs", "GET", Summary = "Gets theme songs for an item")]
     [Authenticated]
-    public class GetThemeSongs : IReturn<ThemeMediaResult>
+    public class GetThemeSongs : Model.Services.IReturn<ThemeMediaResult>
     {
         /// <summary>
         /// Gets or sets the user id.
         /// </summary>
         /// <value>The user id.</value>
-        [ApiMember(Name = "UserId", Description = "Optional. Filter by user id, and attach user data", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "UserId", Description = "Optional. Filter by user id, and attach user data", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
         public Guid UserId { get; set; }
 
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "Id", Description = "Item Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Item Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string Id { get; set; }
 
-        [ApiMember(Name = "InheritFromParent", Description = "Determines whether or not parent items should be searched for theme media.", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "InheritFromParent", Description = "Determines whether or not parent items should be searched for theme media.", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
         public bool InheritFromParent { get; set; }
     }
 
@@ -103,23 +104,23 @@ namespace MediaBrowser.Api.Library
     /// </summary>
     [Route("/Items/{Id}/ThemeVideos", "GET", Summary = "Gets theme videos for an item")]
     [Authenticated]
-    public class GetThemeVideos : IReturn<ThemeMediaResult>
+    public class GetThemeVideos : Model.Services.IReturn<ThemeMediaResult>
     {
         /// <summary>
         /// Gets or sets the user id.
         /// </summary>
         /// <value>The user id.</value>
-        [ApiMember(Name = "UserId", Description = "Optional. Filter by user id, and attach user data", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "UserId", Description = "Optional. Filter by user id, and attach user data", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
         public Guid UserId { get; set; }
 
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "Id", Description = "Item Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Item Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string Id { get; set; }
 
-        [ApiMember(Name = "InheritFromParent", Description = "Determines whether or not parent items should be searched for theme media.", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "InheritFromParent", Description = "Determines whether or not parent items should be searched for theme media.", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
         public bool InheritFromParent { get; set; }
     }
 
@@ -128,23 +129,23 @@ namespace MediaBrowser.Api.Library
     /// </summary>
     [Route("/Items/{Id}/ThemeMedia", "GET", Summary = "Gets theme videos and songs for an item")]
     [Authenticated]
-    public class GetThemeMedia : IReturn<AllThemeMediaResult>
+    public class GetThemeMedia : Model.Services.IReturn<AllThemeMediaResult>
     {
         /// <summary>
         /// Gets or sets the user id.
         /// </summary>
         /// <value>The user id.</value>
-        [ApiMember(Name = "UserId", Description = "Optional. Filter by user id, and attach user data", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "UserId", Description = "Optional. Filter by user id, and attach user data", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
         public Guid UserId { get; set; }
 
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "Id", Description = "Item Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Item Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string Id { get; set; }
 
-        [ApiMember(Name = "InheritFromParent", Description = "Determines whether or not parent items should be searched for theme media.", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "InheritFromParent", Description = "Determines whether or not parent items should be searched for theme media.", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
         public bool InheritFromParent { get; set; }
     }
 
@@ -158,7 +159,7 @@ namespace MediaBrowser.Api.Library
     [Authenticated]
     public class DeleteItem : IReturnVoid
     {
-        [ApiMember(Name = "Id", Description = "Item Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "DELETE")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Item Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "DELETE")]
         public string Id { get; set; }
     }
 
@@ -166,37 +167,37 @@ namespace MediaBrowser.Api.Library
     [Authenticated]
     public class DeleteItems : IReturnVoid
     {
-        [ApiMember(Name = "Ids", Description = "Ids", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "DELETE")]
+        [Model.Services.ApiMember(Name = "Ids", Description = "Ids", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "DELETE")]
         public string Ids { get; set; }
     }
 
     [Route("/Items/Counts", "GET")]
     [Authenticated]
-    public class GetItemCounts : IReturn<ItemCounts>
+    public class GetItemCounts : Model.Services.IReturn<ItemCounts>
     {
-        [ApiMember(Name = "UserId", Description = "Optional. Get counts from a specific user's library.", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "UserId", Description = "Optional. Get counts from a specific user's library.", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
         public Guid UserId { get; set; }
 
-        [ApiMember(Name = "IsFavorite", Description = "Optional. Get counts of favorite items", IsRequired = false, DataType = "bool", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "IsFavorite", Description = "Optional. Get counts of favorite items", IsRequired = false, DataType = "bool", ParameterType = "query", Verb = "GET")]
         public bool? IsFavorite { get; set; }
     }
 
     [Route("/Items/{Id}/Ancestors", "GET", Summary = "Gets all parents of an item")]
     [Authenticated]
-    public class GetAncestors : IReturn<BaseItemDto[]>
+    public class GetAncestors : Model.Services.IReturn<BaseItemDto[]>
     {
         /// <summary>
         /// Gets or sets the user id.
         /// </summary>
         /// <value>The user id.</value>
-        [ApiMember(Name = "UserId", Description = "Optional. Filter by user id, and attach user data", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "UserId", Description = "Optional. Filter by user id, and attach user data", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
         public Guid UserId { get; set; }
 
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "Id", Description = "Item Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Item Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string Id { get; set; }
     }
 
@@ -205,15 +206,15 @@ namespace MediaBrowser.Api.Library
     /// </summary>
     [Route("/Library/PhysicalPaths", "GET", Summary = "Gets a list of physical paths from virtual folders")]
     [Authenticated(Roles = "Admin")]
-    public class GetPhyscialPaths : IReturn<List<string>>
+    public class GetPhyscialPaths : Model.Services.IReturn<List<string>>
     {
     }
 
     [Route("/Library/MediaFolders", "GET", Summary = "Gets all user media folders.")]
     [Authenticated]
-    public class GetMediaFolders : IReturn<QueryResult<BaseItemDto>>
+    public class GetMediaFolders : Model.Services.IReturn<QueryResult<BaseItemDto>>
     {
-        [ApiMember(Name = "IsHidden", Description = "Optional. Filter by folders that are marked hidden, or not.", IsRequired = false, DataType = "boolean", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "IsHidden", Description = "Optional. Filter by folders that are marked hidden, or not.", IsRequired = false, DataType = "boolean", ParameterType = "query", Verb = "GET")]
         public bool? IsHidden { get; set; }
     }
 
@@ -222,7 +223,7 @@ namespace MediaBrowser.Api.Library
     [Authenticated]
     public class PostUpdatedSeries : IReturnVoid
     {
-        [ApiMember(Name = "TvdbId", Description = "Tvdb Id", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "TvdbId", Description = "Tvdb Id", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "POST")]
         public string TvdbId { get; set; }
     }
 
@@ -231,9 +232,9 @@ namespace MediaBrowser.Api.Library
     [Authenticated]
     public class PostUpdatedMovies : IReturnVoid
     {
-        [ApiMember(Name = "TmdbId", Description = "Tmdb Id", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "TmdbId", Description = "Tmdb Id", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "POST")]
         public string TmdbId { get; set; }
-        [ApiMember(Name = "ImdbId", Description = "Imdb Id", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "ImdbId", Description = "Imdb Id", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "POST")]
         public string ImdbId { get; set; }
     }
 
@@ -249,7 +250,7 @@ namespace MediaBrowser.Api.Library
     [Authenticated]
     public class PostUpdatedMedia : IReturnVoid
     {
-        [ApiMember(Name = "Updates", Description = "A list of updated media paths", IsRequired = false, DataType = "string", ParameterType = "body", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Updates", Description = "A list of updated media paths", IsRequired = false, DataType = "string", ParameterType = "body", Verb = "POST")]
         public List<MediaUpdateInfo> Updates { get; set; }
     }
 
@@ -261,7 +262,7 @@ namespace MediaBrowser.Api.Library
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "Id", Description = "Item Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Item Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string Id { get; set; }
     }
 
@@ -278,7 +279,7 @@ namespace MediaBrowser.Api.Library
 
     [Route("/Libraries/AvailableOptions", "GET")]
     [Authenticated(AllowBeforeStartupWizard = true)]
-    public class GetLibraryOptionsInfo : IReturn<LibraryOptionsResult>
+    public class GetLibraryOptionsInfo : Model.Services.IReturn<LibraryOptionsResult>
     {
         public string LibraryContentType { get; set; }
         public bool IsNewLibrary { get; set; }

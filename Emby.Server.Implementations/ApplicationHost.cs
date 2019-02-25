@@ -104,10 +104,13 @@ using MediaBrowser.Providers.Manager;
 using MediaBrowser.Providers.Subtitles;
 using MediaBrowser.WebDashboard.Api;
 using MediaBrowser.XbmcMetadata.Providers;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using ServiceStack;
+using ServiceStack.Templates;
+using IPlugin = MediaBrowser.Common.Plugins.IPlugin;
 using X509Certificate = System.Security.Cryptography.X509Certificates.X509Certificate;
 
 namespace Emby.Server.Implementations
@@ -554,7 +557,7 @@ namespace Emby.Server.Implementations
             Logger.LogInformation("Executed all pre-startup entry points in {Elapsed:fff} ms", DateTime.Now - now);
 
             Logger.LogInformation("Core startup complete");
-            HttpServer.GlobalResponse = null;
+            //HttpServer.GlobalResponse = null;
 
             now = DateTime.UtcNow;
             await Task.WhenAll(StartEntryPoints(entryPoints, false));
@@ -606,9 +609,43 @@ namespace Emby.Server.Implementations
 
             SetHttpLimit();
 
-            await RegisterResources(serviceCollection);
+            //await RegisterResources(serviceCollection);
 
-            FindParts();
+
+            var configuration = new ConfigurationBuilder().Build();
+            var startUp = new Startup(configuration, GetExportTypes<IService>().Select(s => s.Assembly).ToArray());
+
+            var host = new WebHostBuilder()
+                .UseKestrel()
+                .UseContentRoot("C:\\Users\\chv\\jellyfin\\Jellyfin.Server\\bin\\Debug\\netcoreapp2.1\\jellyfin-web\\src")
+                .ConfigureServices(async services =>
+                {
+                    services.AddSingleton<IStartup>(startUp);
+                    RegisterResources(services);
+                    FindParts();
+                    try
+                    {
+                        ImageProcessor.ImageEncoder =
+                            new NullImageEncoder(); //SkiaEncoder(_loggerFactory, appPaths, fileSystem, localizationManager);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogInformation(ex, "Skia not available. Will fallback to NullIMageEncoder. {0}");
+                        ImageProcessor.ImageEncoder = new NullImageEncoder();
+                    }
+                    await RunStartupTasks().ConfigureAwait(false);
+                })
+                .UseUrls("http://localhost:8096")
+                .Build();
+
+            
+
+            host.Run();
+        }
+
+        public IEnumerable<Assembly> GetServices()
+        {
+            yield return typeof(IService).Assembly;
         }
 
         protected virtual IHttpClient CreateHttpClient()
@@ -621,7 +658,7 @@ namespace Emby.Server.Implementations
         /// <summary>
         /// Registers resources that classes will depend on
         /// </summary>
-        protected async Task RegisterResources(IServiceCollection serviceCollection)
+        protected void RegisterResources(IServiceCollection serviceCollection)
         {
             serviceCollection.AddSingleton(ConfigurationManager);
             serviceCollection.AddSingleton<IApplicationHost>(this);
@@ -681,7 +718,7 @@ namespace Emby.Server.Implementations
             serviceCollection.AddSingleton<IAssemblyInfo>(assemblyInfo);
 
             LocalizationManager = new LocalizationManager(ServerConfigurationManager, FileSystemManager, JsonSerializer, LoggerFactory);
-            await LocalizationManager.LoadAll();
+            Task.WhenAll(LocalizationManager.LoadAll());
             serviceCollection.AddSingleton<ILocalizationManager>(LocalizationManager);
 
             serviceCollection.AddSingleton<IBlurayExaminer>(new BdInfoExaminer(FileSystemManager));
@@ -722,16 +759,16 @@ namespace Emby.Server.Implementations
             CertificateInfo = GetCertificateInfo(true);
             Certificate = GetCertificate(CertificateInfo);
 
-            HttpServer = new HttpListenerHost(this,
-                LoggerFactory,
-                ServerConfigurationManager,
-                _configuration,
-                NetworkManager,
-                JsonSerializer,
-                XmlSerializer);
+            //HttpServer = new HttpListenerHost(this,
+            //    LoggerFactory,
+            //    ServerConfigurationManager,
+            //    _configuration,
+            //    NetworkManager,
+            //    JsonSerializer,
+            //    XmlSerializer);
 
-            HttpServer.GlobalResponse = LocalizationManager.GetLocalizedString("StartupEmbyServerIsLoading");
-            serviceCollection.AddSingleton(HttpServer);
+            // HttpServer.GlobalResponse = LocalizationManager.GetLocalizedString("StartupEmbyServerIsLoading");
+            // serviceCollection.AddSingleton(HttpServer);
 
             ImageProcessor = GetImageProcessor();
             serviceCollection.AddSingleton(ImageProcessor);
@@ -1060,9 +1097,7 @@ namespace Emby.Server.Implementations
                         .Where(i => i != null)
                         .ToArray();
 
-            HttpServer.Init(GetExports<IService>(false), GetExports<IWebSocketListener>());
-
-            StartServer();
+            //HttpServer.Init(GetExports<IService>(false), GetExports<IWebSocketListener>());
 
             LibraryManager.AddParts(GetExports<IResolverIgnoreRule>(),
                 GetExports<IItemResolver>(),

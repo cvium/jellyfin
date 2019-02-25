@@ -7,7 +7,7 @@ using MediaBrowser.Controller.Library;
 using MediaBrowser.Controller.Net;
 using MediaBrowser.Controller.Persistence;
 using MediaBrowser.Model.Dto;
-using MediaBrowser.Model.Services;
+using ServiceStack;
 
 namespace MediaBrowser.Api.UserLibrary
 {
@@ -23,20 +23,20 @@ namespace MediaBrowser.Api.UserLibrary
     /// Class GetYear
     /// </summary>
     [Route("/Years/{Year}", "GET", Summary = "Gets a year")]
-    public class GetYear : IReturn<BaseItemDto>
+    public class GetYear : Model.Services.IReturn<BaseItemDto>
     {
         /// <summary>
         /// Gets or sets the year.
         /// </summary>
         /// <value>The year.</value>
-        [ApiMember(Name = "Year", Description = "The year", IsRequired = true, DataType = "int", ParameterType = "path", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Year", Description = "The year", IsRequired = true, DataType = "int", ParameterType = "path", Verb = "GET")]
         public int Year { get; set; }
 
         /// <summary>
         /// Gets or sets the user id.
         /// </summary>
         /// <value>The user id.</value>
-        [ApiMember(Name = "UserId", Description = "Optional. Filter by user id, and attach user data", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "UserId", Description = "Optional. Filter by user id, and attach user data", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
         public Guid UserId { get; set; }
     }
 

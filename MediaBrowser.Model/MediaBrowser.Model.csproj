@@ -20,4 +20,10 @@
     <Compile Include="..\SharedVersion.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ServiceStack\ServiceStack.Common\ServiceStack.Common.csproj" />
+    <ProjectReference Include="..\ServiceStack\ServiceStack.Interfaces\ServiceStack.Interfaces.csproj" />
+    <ProjectReference Include="..\ServiceStack\ServiceStack\ServiceStack.csproj" />
+  </ItemGroup>
+
 </Project>

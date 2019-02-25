@@ -4,6 +4,7 @@ using Emby.Server.Implementations;
 using Emby.Server.Implementations.HttpServer;
 using Jellyfin.Server.SocketSharp;
 using MediaBrowser.Model.IO;
+using MediaBrowser.Model.Services;
 using MediaBrowser.Model.System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;

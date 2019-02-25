@@ -4,19 +4,20 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using MediaBrowser.Common.Extensions;
-using MediaBrowser.Common.Plugins;
 using MediaBrowser.Controller;
 using MediaBrowser.Controller.Configuration;
 using MediaBrowser.Controller.Net;
 using MediaBrowser.Controller.Plugins;
 using MediaBrowser.Model.Globalization;
 using MediaBrowser.Model.IO;
-using MediaBrowser.Model.Net;
 using MediaBrowser.Model.Plugins;
 using MediaBrowser.Model.Reflection;
 using MediaBrowser.Model.Serialization;
 using MediaBrowser.Model.Services;
 using Microsoft.Extensions.Logging;
+using ServiceStack;
+using IPlugin = MediaBrowser.Common.Plugins.IPlugin;
+using MimeTypes = MediaBrowser.Model.Net.MimeTypes;
 
 namespace MediaBrowser.WebDashboard.Api
 {
@@ -24,7 +25,7 @@ namespace MediaBrowser.WebDashboard.Api
     /// Class GetDashboardConfigurationPages
     /// </summary>
     [Route("/web/ConfigurationPages", "GET")]
-    public class GetDashboardConfigurationPages : IReturn<List<ConfigurationPageInfo>>
+    public class GetDashboardConfigurationPages : Model.Services.IReturn<List<ConfigurationPageInfo>>
     {
         /// <summary>
         /// Gets or sets the type of the page.
@@ -47,13 +48,13 @@ namespace MediaBrowser.WebDashboard.Api
         public string Name { get; set; }
     }
 
-    [Route("/web/Package", "GET", IsHidden = true)]
+    [Route("/web/Package", "GET")]
     public class GetDashboardPackage
     {
         public string Mode { get; set; }
     }
 
-    [Route("/robots.txt", "GET", IsHidden = true)]
+    [Route("/robots.txt", "GET")]
     public class GetRobotsTxt
     {
     }
@@ -61,7 +62,7 @@ namespace MediaBrowser.WebDashboard.Api
     /// <summary>
     /// Class GetDashboardResource
     /// </summary>
-    [Route("/web/{ResourceName*}", "GET", IsHidden = true)]
+    [Route("/web/{ResourceName*}", "GET")]
     public class GetDashboardResource
     {
         /// <summary>
@@ -76,7 +77,7 @@ namespace MediaBrowser.WebDashboard.Api
         public string V { get; set; }
     }
 
-    [Route("/favicon.ico", "GET", IsHidden = true)]
+    [Route("/favicon.ico", "GET")]
     public class GetFavIcon
     {
     }

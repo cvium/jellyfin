@@ -74,7 +74,7 @@ namespace Emby.Server.Implementations.Services
             var attrs = appHost.GetRouteAttributes(requestType);
             foreach (var attr in attrs)
             {
-                var restPath = new RestPath(appHost.CreateInstance, appHost.GetParseFn, requestType, serviceType, attr.Path, attr.Verbs, attr.IsHidden, attr.Summary, attr.Description);
+                var restPath = new RestPath(appHost.CreateInstance, appHost.GetParseFn, requestType, serviceType, attr.Path, attr.Verbs, false, attr.Summary);
 
                 RegisterRestPath(restPath);
             }

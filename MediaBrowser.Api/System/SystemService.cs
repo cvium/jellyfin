@@ -10,9 +10,10 @@ using MediaBrowser.Controller;
 using MediaBrowser.Controller.Net;
 using MediaBrowser.Model.IO;
 using MediaBrowser.Model.Net;
-using MediaBrowser.Model.Services;
 using MediaBrowser.Model.System;
 using Microsoft.Extensions.Logging;
+using ServiceStack;
+using IReturnVoid = MediaBrowser.Model.Services.IReturnVoid;
 
 namespace MediaBrowser.Api.System
 {
@@ -21,13 +22,13 @@ namespace MediaBrowser.Api.System
     /// </summary>
     [Route("/System/Info", "GET", Summary = "Gets information about the server")]
     [Authenticated(EscapeParentalControl = true, AllowBeforeStartupWizard = true)]
-    public class GetSystemInfo : IReturn<SystemInfo>
+    public class GetSystemInfo : Model.Services.IReturn<SystemInfo>
     {
 
     }
 
     [Route("/System/Info/Public", "GET", Summary = "Gets public information about the server")]
-    public class GetPublicSystemInfo : IReturn<PublicSystemInfo>
+    public class GetPublicSystemInfo : Model.Services.IReturn<PublicSystemInfo>
     {
 
     }
@@ -59,13 +60,13 @@ namespace MediaBrowser.Api.System
 
     [Route("/System/Logs", "GET", Summary = "Gets a list of available server log files")]
     [Authenticated(Roles = "Admin")]
-    public class GetServerLogs : IReturn<LogFile[]>
+    public class GetServerLogs : Model.Services.IReturn<LogFile[]>
     {
     }
 
     [Route("/System/Endpoint", "GET", Summary = "Gets information about the request endpoint")]
     [Authenticated]
-    public class GetEndpointInfo : IReturn<EndPointInfo>
+    public class GetEndpointInfo : Model.Services.IReturn<EndPointInfo>
     {
         public string Endpoint { get; set; }
     }
@@ -74,13 +75,13 @@ namespace MediaBrowser.Api.System
     [Authenticated(Roles = "Admin")]
     public class GetLogFile
     {
-        [ApiMember(Name = "Name", Description = "The log file name.", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "GET", AllowMultiple = true)]
+        [Model.Services.ApiMember(Name = "Name", Description = "The log file name.", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "GET", AllowMultiple = true)]
         public string Name { get; set; }
     }
 
     [Route("/System/WakeOnLanInfo", "GET", Summary = "Gets wake on lan information")]
     [Authenticated]
-    public class GetWakeOnLanInfo : IReturn<WakeOnLanInfo[]>
+    public class GetWakeOnLanInfo : Model.Services.IReturn<WakeOnLanInfo[]>
     {
 
     }
@@ -185,7 +186,7 @@ namespace MediaBrowser.Api.System
         {
             var result = await _appHost.GetPublicSystemInfo(CancellationToken.None).ConfigureAwait(false);
 
-            return ToOptimizedResult(result);
+            return result;
         }
 
         /// <summary>

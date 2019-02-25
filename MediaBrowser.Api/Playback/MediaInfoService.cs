@@ -16,43 +16,44 @@ using MediaBrowser.Model.Dto;
 using MediaBrowser.Model.Entities;
 using MediaBrowser.Model.MediaInfo;
 using MediaBrowser.Model.Serialization;
-using MediaBrowser.Model.Services;
 using MediaBrowser.Model.Session;
 using Microsoft.Extensions.Logging;
+using ServiceStack;
+using IReturnVoid = MediaBrowser.Model.Services.IReturnVoid;
 
 namespace MediaBrowser.Api.Playback
 {
     [Route("/Items/{Id}/PlaybackInfo", "GET", Summary = "Gets live playback media info for an item")]
-    public class GetPlaybackInfo : IReturn<PlaybackInfoResponse>
+    public class GetPlaybackInfo : Model.Services.IReturn<PlaybackInfoResponse>
     {
-        [ApiMember(Name = "Id", Description = "Item Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Item Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public Guid Id { get; set; }
 
-        [ApiMember(Name = "UserId", Description = "User Id", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "UserId", Description = "User Id", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "GET")]
         public Guid UserId { get; set; }
     }
 
     [Route("/Items/{Id}/PlaybackInfo", "POST", Summary = "Gets live playback media info for an item")]
-    public class GetPostedPlaybackInfo : PlaybackInfoRequest, IReturn<PlaybackInfoResponse>
+    public class GetPostedPlaybackInfo : PlaybackInfoRequest, Model.Services.IReturn<PlaybackInfoResponse>
     {
     }
 
     [Route("/LiveStreams/Open", "POST", Summary = "Opens a media source")]
-    public class OpenMediaSource : LiveStreamRequest, IReturn<LiveStreamResponse>
+    public class OpenMediaSource : LiveStreamRequest, Model.Services.IReturn<LiveStreamResponse>
     {
     }
 
     [Route("/LiveStreams/Close", "POST", Summary = "Closes a media source")]
     public class CloseMediaSource : IReturnVoid
     {
-        [ApiMember(Name = "LiveStreamId", Description = "LiveStreamId", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "LiveStreamId", Description = "LiveStreamId", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
         public string LiveStreamId { get; set; }
     }
 
     [Route("/Playback/BitrateTest", "GET")]
     public class GetBitrateTestBytes
     {
-        [ApiMember(Name = "Size", Description = "Size", IsRequired = true, DataType = "int", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Size", Description = "Size", IsRequired = true, DataType = "int", ParameterType = "query", Verb = "GET")]
         public long Size { get; set; }
 
         public GetBitrateTestBytes()

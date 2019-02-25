@@ -6,38 +6,39 @@ using MediaBrowser.Controller.Configuration;
 using MediaBrowser.Controller.Library;
 using MediaBrowser.Controller.MediaEncoding;
 using MediaBrowser.Controller.Net;
-using MediaBrowser.Model.Services;
+using ServiceStack;
+using IReturnVoid = MediaBrowser.Model.Services.IReturnVoid;
 
 namespace MediaBrowser.Api
 {
-    [Route("/Startup/Complete", "POST", Summary = "Reports that the startup wizard has been completed", IsHidden = true)]
+    [Route("/Startup/Complete", "POST", Summary = "Reports that the startup wizard has been completed")]
     public class ReportStartupWizardComplete : IReturnVoid
     {
     }
 
-    [Route("/Startup/Configuration", "GET", Summary = "Gets initial server configuration", IsHidden = true)]
-    public class GetStartupConfiguration : IReturn<StartupConfiguration>
+    [Route("/Startup/Configuration", "GET", Summary = "Gets initial server configuration")]
+    public class GetStartupConfiguration : Model.Services.IReturn<StartupConfiguration>
     {
     }
 
-    [Route("/Startup/Configuration", "POST", Summary = "Updates initial server configuration", IsHidden = true)]
+    [Route("/Startup/Configuration", "POST", Summary = "Updates initial server configuration")]
     public class UpdateStartupConfiguration : StartupConfiguration, IReturnVoid
     {
     }
 
-    [Route("/Startup/RemoteAccess", "POST", Summary = "Updates initial server configuration", IsHidden = true)]
+    [Route("/Startup/RemoteAccess", "POST", Summary = "Updates initial server configuration")]
     public class UpdateRemoteAccessConfiguration : IReturnVoid
     {
         public bool EnableRemoteAccess { get; set; }
         public bool EnableAutomaticPortMapping { get; set; }
     }
 
-    [Route("/Startup/User", "GET", Summary = "Gets initial user info", IsHidden = true)]
-    public class GetStartupUser : IReturn<StartupUser>
+    [Route("/Startup/User", "GET", Summary = "Gets initial user info")]
+    public class GetStartupUser : Model.Services.IReturn<StartupUser>
     {
     }
 
-    [Route("/Startup/User", "POST", Summary = "Updates initial user info", IsHidden = true)]
+    [Route("/Startup/User", "POST", Summary = "Updates initial user info")]
     public class UpdateStartupUser : StartupUser
     {
     }

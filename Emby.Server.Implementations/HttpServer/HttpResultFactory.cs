@@ -530,7 +530,7 @@ namespace Emby.Server.Implementations.HttpServer
             options.ResponseHeaders = options.ResponseHeaders ?? new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
             var contentType = options.ContentType;
-            if (!string.IsNullOrEmpty(requestContext.Headers.Get("If-Modified-Since")))
+            if (!string.IsNullOrEmpty(requestContext?.Headers.Get("If-Modified-Since")))
             {
                 // See if the result is already cached in the browser
                 var result = GetCachedResult(requestContext, options.ResponseHeaders, options);
@@ -542,13 +542,13 @@ namespace Emby.Server.Implementations.HttpServer
             }
 
             // TODO: We don't really need the option value
-            var isHeadRequest = options.IsHeadRequest || string.Equals(requestContext.Verb, "HEAD", StringComparison.OrdinalIgnoreCase);
+            var isHeadRequest = options.IsHeadRequest || string.Equals(requestContext?.Verb, "HEAD", StringComparison.OrdinalIgnoreCase);
             var factoryFn = options.ContentFactory;
             var responseHeaders = options.ResponseHeaders;
             AddCachingHeaders(responseHeaders, options.CacheDuration, false, options.DateLastModified);
             AddAgeHeader(responseHeaders, options.DateLastModified);
 
-            var rangeHeader = requestContext.Headers.Get("Range");
+            var rangeHeader = requestContext?.Headers.Get("Range");
 
             if (!isHeadRequest && !string.IsNullOrEmpty(options.Path))
             {

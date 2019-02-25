@@ -9,6 +9,7 @@ using MediaBrowser.Common.Extensions;
 using MediaBrowser.Controller.Dlna;
 using MediaBrowser.Controller.Net;
 using MediaBrowser.Model.Services;
+using ServiceStack;
 
 namespace Emby.Dlna.Api
 {
@@ -16,7 +17,7 @@ namespace Emby.Dlna.Api
     [Route("/Dlna/{UuId}/description", "GET", Summary = "Gets dlna server info")]
     public class GetDescriptionXml
     {
-        [ApiMember(Name = "UuId", Description = "Server UuId", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [MediaBrowser.Model.Services.ApiMember(Name = "UuId", Description = "Server UuId", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string UuId { get; set; }
     }
 
@@ -24,7 +25,7 @@ namespace Emby.Dlna.Api
     [Route("/Dlna/{UuId}/contentdirectory/contentdirectory", "GET", Summary = "Gets dlna content directory xml")]
     public class GetContentDirectory
     {
-        [ApiMember(Name = "UuId", Description = "Server UuId", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [MediaBrowser.Model.Services.ApiMember(Name = "UuId", Description = "Server UuId", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string UuId { get; set; }
     }
 
@@ -32,7 +33,7 @@ namespace Emby.Dlna.Api
     [Route("/Dlna/{UuId}/connectionmanager/connectionmanager", "GET", Summary = "Gets dlna connection manager xml")]
     public class GetConnnectionManager
     {
-        [ApiMember(Name = "UuId", Description = "Server UuId", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [MediaBrowser.Model.Services.ApiMember(Name = "UuId", Description = "Server UuId", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string UuId { get; set; }
     }
 
@@ -40,14 +41,14 @@ namespace Emby.Dlna.Api
     [Route("/Dlna/{UuId}/mediareceiverregistrar/mediareceiverregistrar", "GET", Summary = "Gets dlna mediareceiverregistrar xml")]
     public class GetMediaReceiverRegistrar
     {
-        [ApiMember(Name = "UuId", Description = "Server UuId", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [MediaBrowser.Model.Services.ApiMember(Name = "UuId", Description = "Server UuId", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string UuId { get; set; }
     }
 
     [Route("/Dlna/{UuId}/contentdirectory/control", "POST", Summary = "Processes a control request")]
     public class ProcessContentDirectoryControlRequest : IRequiresRequestStream
     {
-        [ApiMember(Name = "UuId", Description = "Server UuId", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [MediaBrowser.Model.Services.ApiMember(Name = "UuId", Description = "Server UuId", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string UuId { get; set; }
 
         public Stream RequestStream { get; set; }
@@ -56,7 +57,7 @@ namespace Emby.Dlna.Api
     [Route("/Dlna/{UuId}/connectionmanager/control", "POST", Summary = "Processes a control request")]
     public class ProcessConnectionManagerControlRequest : IRequiresRequestStream
     {
-        [ApiMember(Name = "UuId", Description = "Server UuId", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [MediaBrowser.Model.Services.ApiMember(Name = "UuId", Description = "Server UuId", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string UuId { get; set; }
 
         public Stream RequestStream { get; set; }
@@ -65,7 +66,7 @@ namespace Emby.Dlna.Api
     [Route("/Dlna/{UuId}/mediareceiverregistrar/control", "POST", Summary = "Processes a control request")]
     public class ProcessMediaReceiverRegistrarControlRequest : IRequiresRequestStream
     {
-        [ApiMember(Name = "UuId", Description = "Server UuId", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [MediaBrowser.Model.Services.ApiMember(Name = "UuId", Description = "Server UuId", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string UuId { get; set; }
 
         public Stream RequestStream { get; set; }
@@ -75,7 +76,7 @@ namespace Emby.Dlna.Api
     [Route("/Dlna/{UuId}/mediareceiverregistrar/events", "UNSUBSCRIBE", Summary = "Processes an event subscription request")]
     public class ProcessMediaReceiverRegistrarEventRequest
     {
-        [ApiMember(Name = "UuId", Description = "Server UuId", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "SUBSCRIBE,UNSUBSCRIBE")]
+        [MediaBrowser.Model.Services.ApiMember(Name = "UuId", Description = "Server UuId", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "SUBSCRIBE,UNSUBSCRIBE")]
         public string UuId { get; set; }
     }
 
@@ -83,7 +84,7 @@ namespace Emby.Dlna.Api
     [Route("/Dlna/{UuId}/contentdirectory/events", "UNSUBSCRIBE", Summary = "Processes an event subscription request")]
     public class ProcessContentDirectoryEventRequest
     {
-        [ApiMember(Name = "UuId", Description = "Server UuId", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "SUBSCRIBE,UNSUBSCRIBE")]
+        [MediaBrowser.Model.Services.ApiMember(Name = "UuId", Description = "Server UuId", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "SUBSCRIBE,UNSUBSCRIBE")]
         public string UuId { get; set; }
     }
 
@@ -91,7 +92,7 @@ namespace Emby.Dlna.Api
     [Route("/Dlna/{UuId}/connectionmanager/events", "UNSUBSCRIBE", Summary = "Processes an event subscription request")]
     public class ProcessConnectionManagerEventRequest
     {
-        [ApiMember(Name = "UuId", Description = "Server UuId", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "SUBSCRIBE,UNSUBSCRIBE")]
+        [MediaBrowser.Model.Services.ApiMember(Name = "UuId", Description = "Server UuId", IsRequired = false, DataType = "string", ParameterType = "path", Verb = "SUBSCRIBE,UNSUBSCRIBE")]
         public string UuId { get; set; }
     }
 
@@ -99,10 +100,10 @@ namespace Emby.Dlna.Api
     [Route("/Dlna/icons/{Filename}", "GET", Summary = "Gets a server icon")]
     public class GetIcon
     {
-        [ApiMember(Name = "UuId", Description = "Server UuId", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
+        [MediaBrowser.Model.Services.ApiMember(Name = "UuId", Description = "Server UuId", IsRequired = false, DataType = "string", ParameterType = "query", Verb = "GET")]
         public string UuId { get; set; }
 
-        [ApiMember(Name = "Filename", Description = "The icon filename", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [MediaBrowser.Model.Services.ApiMember(Name = "Filename", Description = "The icon filename", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string Filename { get; set; }
     }
 

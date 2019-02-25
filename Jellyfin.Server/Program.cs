@@ -140,9 +140,9 @@ namespace Jellyfin.Server
             {
                 await appHost.Init(new ServiceCollection()).ConfigureAwait(false);
 
-                appHost.ImageProcessor.ImageEncoder = GetImageEncoder(fileSystem, appPaths, appHost.LocalizationManager);
+                //appHost.ImageProcessor.ImageEncoder = GetImageEncoder(fileSystem, appPaths, appHost.LocalizationManager);
 
-                await appHost.RunStartupTasks().ConfigureAwait(false);
+                //await appHost.RunStartupTasks().ConfigureAwait(false);
 
                 // TODO: read input for a stop command
 

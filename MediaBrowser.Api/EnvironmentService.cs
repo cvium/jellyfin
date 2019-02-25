@@ -6,7 +6,7 @@ using MediaBrowser.Common.Net;
 using MediaBrowser.Controller.Net;
 using MediaBrowser.Model.IO;
 using MediaBrowser.Model.Net;
-using MediaBrowser.Model.Services;
+using ServiceStack;
 
 namespace MediaBrowser.Api
 {
@@ -14,27 +14,27 @@ namespace MediaBrowser.Api
     /// Class GetDirectoryContents
     /// </summary>
     [Route("/Environment/DirectoryContents", "GET", Summary = "Gets the contents of a given directory in the file system")]
-    public class GetDirectoryContents : IReturn<List<FileSystemEntryInfo>>
+    public class GetDirectoryContents : Model.Services.IReturn<List<FileSystemEntryInfo>>
     {
         /// <summary>
         /// Gets or sets the path.
         /// </summary>
         /// <value>The path.</value>
-        [ApiMember(Name = "Path", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Path", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "GET")]
         public string Path { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether [include files].
         /// </summary>
         /// <value><c>true</c> if [include files]; otherwise, <c>false</c>.</value>
-        [ApiMember(Name = "IncludeFiles", Description = "An optional filter to include or exclude files from the results. true/false", IsRequired = false, DataType = "boolean", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "IncludeFiles", Description = "An optional filter to include or exclude files from the results. true/false", IsRequired = false, DataType = "boolean", ParameterType = "query", Verb = "GET")]
         public bool IncludeFiles { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether [include directories].
         /// </summary>
         /// <value><c>true</c> if [include directories]; otherwise, <c>false</c>.</value>
-        [ApiMember(Name = "IncludeDirectories", Description = "An optional filter to include or exclude folders from the results. true/false", IsRequired = false, DataType = "boolean", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "IncludeDirectories", Description = "An optional filter to include or exclude folders from the results. true/false", IsRequired = false, DataType = "boolean", ParameterType = "query", Verb = "GET")]
         public bool IncludeDirectories { get; set; }
     }
 
@@ -45,7 +45,7 @@ namespace MediaBrowser.Api
         /// Gets or sets the path.
         /// </summary>
         /// <value>The path.</value>
-        [ApiMember(Name = "Path", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Path", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "POST")]
         public string Path { get; set; }
 
         public bool ValidateWriteable { get; set; }
@@ -53,13 +53,13 @@ namespace MediaBrowser.Api
     }
 
     [Route("/Environment/NetworkShares", "GET", Summary = "Gets shares from a network device")]
-    public class GetNetworkShares : IReturn<List<FileSystemEntryInfo>>
+    public class GetNetworkShares : Model.Services.IReturn<List<FileSystemEntryInfo>>
     {
         /// <summary>
         /// Gets or sets the path.
         /// </summary>
         /// <value>The path.</value>
-        [ApiMember(Name = "Path", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Path", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "GET")]
         public string Path { get; set; }
     }
 
@@ -67,7 +67,7 @@ namespace MediaBrowser.Api
     /// Class GetDrives
     /// </summary>
     [Route("/Environment/Drives", "GET", Summary = "Gets available drives from the server's file system")]
-    public class GetDrives : IReturn<List<FileSystemEntryInfo>>
+    public class GetDrives : Model.Services.IReturn<List<FileSystemEntryInfo>>
     {
     }
 
@@ -75,18 +75,18 @@ namespace MediaBrowser.Api
     /// Class GetNetworkComputers
     /// </summary>
     [Route("/Environment/NetworkDevices", "GET", Summary = "Gets a list of devices on the network")]
-    public class GetNetworkDevices : IReturn<List<FileSystemEntryInfo>>
+    public class GetNetworkDevices : Model.Services.IReturn<List<FileSystemEntryInfo>>
     {
     }
 
     [Route("/Environment/ParentPath", "GET", Summary = "Gets the parent path of a given path")]
-    public class GetParentPath : IReturn<string>
+    public class GetParentPath : Model.Services.IReturn<string>
     {
         /// <summary>
         /// Gets or sets the path.
         /// </summary>
         /// <value>The path.</value>
-        [ApiMember(Name = "Path", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Path", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "GET")]
         public string Path { get; set; }
     }
 
@@ -96,7 +96,7 @@ namespace MediaBrowser.Api
     }
 
     [Route("/Environment/DefaultDirectoryBrowser", "GET", Summary = "Gets the parent path of a given path")]
-    public class GetDefaultDirectoryBrowser : IReturn<DefaultDirectoryBrowserInfo>
+    public class GetDefaultDirectoryBrowser : Model.Services.IReturn<DefaultDirectoryBrowserInfo>
     {
 
     }

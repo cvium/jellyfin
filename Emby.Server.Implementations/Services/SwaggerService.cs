@@ -1,15 +1,16 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MediaBrowser.Model.Services;
+using ServiceStack;
 
 namespace Emby.Server.Implementations.Services
 {
     [Route("/swagger", "GET", Summary = "Gets the swagger specifications")]
     [Route("/swagger.json", "GET", Summary = "Gets the swagger specifications")]
-    public class GetSwaggerSpec : IReturn<SwaggerSpec>
+    public class GetSwaggerSpec : MediaBrowser.Model.Services.IReturn<SwaggerSpec>
     {
     }
 

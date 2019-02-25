@@ -11,6 +11,7 @@ using MediaBrowser.Model.Dlna;
 using MediaBrowser.Model.IO;
 using MediaBrowser.Model.Serialization;
 using MediaBrowser.Model.Services;
+using ServiceStack;
 
 namespace MediaBrowser.Api.Playback.Hls
 {

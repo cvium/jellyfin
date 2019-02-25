@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using MediaBrowser.Controller.Net;
 using MediaBrowser.Model.Entities;
 using MediaBrowser.Model.Globalization;
-using MediaBrowser.Model.Services;
+using ServiceStack;
 
 namespace MediaBrowser.Api
 {
@@ -10,7 +10,7 @@ namespace MediaBrowser.Api
     /// Class GetCultures
     /// </summary>
     [Route("/Localization/Cultures", "GET", Summary = "Gets known cultures")]
-    public class GetCultures : IReturn<CultureDto[]>
+    public class GetCultures : Model.Services.IReturn<CultureDto[]>
     {
     }
 
@@ -18,7 +18,7 @@ namespace MediaBrowser.Api
     /// Class GetCountries
     /// </summary>
     [Route("/Localization/Countries", "GET", Summary = "Gets known countries")]
-    public class GetCountries : IReturn<CountryInfo[]>
+    public class GetCountries : Model.Services.IReturn<CountryInfo[]>
     {
     }
 
@@ -26,7 +26,7 @@ namespace MediaBrowser.Api
     /// Class ParentalRatings
     /// </summary>
     [Route("/Localization/ParentalRatings", "GET", Summary = "Gets known parental ratings")]
-    public class GetParentalRatings : IReturn<ParentalRating[]>
+    public class GetParentalRatings : Model.Services.IReturn<ParentalRating[]>
     {
     }
 
@@ -34,7 +34,7 @@ namespace MediaBrowser.Api
     /// Class ParentalRatings
     /// </summary>
     [Route("/Localization/Options", "GET", Summary = "Gets localization options")]
-    public class GetLocalizationOptions : IReturn<LocalizationOption[]>
+    public class GetLocalizationOptions : Model.Services.IReturn<LocalizationOption[]>
     {
     }
 

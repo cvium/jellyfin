@@ -9,7 +9,7 @@ using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Net;
 using MediaBrowser.Model.Dto;
 using MediaBrowser.Model.IO;
-using MediaBrowser.Model.Services;
+using ServiceStack;
 
 namespace MediaBrowser.Api.Images
 {
@@ -23,10 +23,10 @@ namespace MediaBrowser.Api.Images
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name.</value>
-        [ApiMember(Name = "Name", Description = "The name of the image", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Name", Description = "The name of the image", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string Name { get; set; }
 
-        [ApiMember(Name = "Type", Description = "Image Type (primary, backdrop, logo, etc).", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Type", Description = "Image Type (primary, backdrop, logo, etc).", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string Type { get; set; }
     }
 
@@ -40,14 +40,14 @@ namespace MediaBrowser.Api.Images
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name.</value>
-        [ApiMember(Name = "Name", Description = "The name of the image", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Name", Description = "The name of the image", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the theme.
         /// </summary>
         /// <value>The theme.</value>
-        [ApiMember(Name = "Theme", Description = "The theme to get the image from", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Theme", Description = "The theme to get the image from", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string Theme { get; set; }
     }
 
@@ -61,32 +61,32 @@ namespace MediaBrowser.Api.Images
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name.</value>
-        [ApiMember(Name = "Name", Description = "The name of the image", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Name", Description = "The name of the image", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the theme.
         /// </summary>
         /// <value>The theme.</value>
-        [ApiMember(Name = "Theme", Description = "The theme to get the image from", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Theme", Description = "The theme to get the image from", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string Theme { get; set; }
     }
 
     [Route("/Images/MediaInfo", "GET", Summary = "Gets all media info image by name")]
     [Authenticated]
-    public class GetMediaInfoImages : IReturn<List<ImageByNameInfo>>
+    public class GetMediaInfoImages : Model.Services.IReturn<List<ImageByNameInfo>>
     {
     }
 
     [Route("/Images/Ratings", "GET", Summary = "Gets all rating images by name")]
     [Authenticated]
-    public class GetRatingImages : IReturn<List<ImageByNameInfo>>
+    public class GetRatingImages : Model.Services.IReturn<List<ImageByNameInfo>>
     {
     }
 
     [Route("/Images/General", "GET", Summary = "Gets all general images by name")]
     [Authenticated]
-    public class GetGeneralImages : IReturn<List<ImageByNameInfo>>
+    public class GetGeneralImages : Model.Services.IReturn<List<ImageByNameInfo>>
     {
     }
 

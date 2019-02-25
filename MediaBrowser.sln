@@ -1,4 +1,5 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -56,7 +57,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		SharedVersion.cs = SharedVersion.cs
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jellyfin.Drawing.Skia", "Jellyfin.Drawing.Skia\Jellyfin.Drawing.Skia.csproj", "{154872D9-6C12-4007-96E3-8F70A58386CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jellyfin.Drawing.Skia", "Jellyfin.Drawing.Skia\Jellyfin.Drawing.Skia.csproj", "{154872D9-6C12-4007-96E3-8F70A58386CE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceStack", "ServiceStack\ServiceStack\ServiceStack.csproj", "{1A791D2A-B6A9-4C16-921F-A1EDF5D10E24}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceStack.Interfaces", "ServiceStack\ServiceStack.Interfaces\ServiceStack.Interfaces.csproj", "{2B63BC97-DEF6-46FA-A757-7D2E2D03EC31}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceStack.Common", "ServiceStack\ServiceStack.Common\ServiceStack.Common.csproj", "{DB41993B-BEAA-4B08-81DD-D630DA6A9709}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceStack.Client", "ServiceStack\ServiceStack.Client\ServiceStack.Client.csproj", "{89B3F653-1A5B-41D4-A36D-25B1691B7B8D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceStack.Kestrel", "ServiceStack\ServiceStack.Kestrel\ServiceStack.Kestrel.csproj", "{81D0B2B0-395B-42F5-976D-2DDA0BEE0FF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -164,6 +175,26 @@ Global
 		{154872D9-6C12-4007-96E3-8F70A58386CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{154872D9-6C12-4007-96E3-8F70A58386CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{154872D9-6C12-4007-96E3-8F70A58386CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A791D2A-B6A9-4C16-921F-A1EDF5D10E24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A791D2A-B6A9-4C16-921F-A1EDF5D10E24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A791D2A-B6A9-4C16-921F-A1EDF5D10E24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A791D2A-B6A9-4C16-921F-A1EDF5D10E24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B63BC97-DEF6-46FA-A757-7D2E2D03EC31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B63BC97-DEF6-46FA-A757-7D2E2D03EC31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B63BC97-DEF6-46FA-A757-7D2E2D03EC31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B63BC97-DEF6-46FA-A757-7D2E2D03EC31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB41993B-BEAA-4B08-81DD-D630DA6A9709}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB41993B-BEAA-4B08-81DD-D630DA6A9709}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB41993B-BEAA-4B08-81DD-D630DA6A9709}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB41993B-BEAA-4B08-81DD-D630DA6A9709}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89B3F653-1A5B-41D4-A36D-25B1691B7B8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89B3F653-1A5B-41D4-A36D-25B1691B7B8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89B3F653-1A5B-41D4-A36D-25B1691B7B8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89B3F653-1A5B-41D4-A36D-25B1691B7B8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81D0B2B0-395B-42F5-976D-2DDA0BEE0FF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81D0B2B0-395B-42F5-976D-2DDA0BEE0FF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81D0B2B0-395B-42F5-976D-2DDA0BEE0FF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81D0B2B0-395B-42F5-976D-2DDA0BEE0FF2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

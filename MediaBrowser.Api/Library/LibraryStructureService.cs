@@ -12,7 +12,8 @@ using MediaBrowser.Controller.Net;
 using MediaBrowser.Model.Configuration;
 using MediaBrowser.Model.Entities;
 using MediaBrowser.Model.IO;
-using MediaBrowser.Model.Services;
+using ServiceStack;
+using IReturnVoid = MediaBrowser.Model.Services.IReturnVoid;
 
 namespace MediaBrowser.Api.Library
 {
@@ -20,7 +21,7 @@ namespace MediaBrowser.Api.Library
     /// Class GetDefaultVirtualFolders
     /// </summary>
     [Route("/Library/VirtualFolders", "GET")]
-    public class GetVirtualFolders : IReturn<List<VirtualFolderInfo>>
+    public class GetVirtualFolders : Model.Services.IReturn<List<VirtualFolderInfo>>
     {
         /// <summary>
         /// Gets or sets the user id.

@@ -21,6 +21,7 @@ using MediaBrowser.Model.Serialization;
 using MediaBrowser.Model.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using ServiceStack;
 using ServiceStack.Text.Jsv;
 
 namespace Emby.Server.Implementations.HttpServer
@@ -723,28 +724,6 @@ namespace Emby.Server.Implementations.HttpServer
         }
 
         public ServiceController ServiceController { get; private set; }
-
-        /// <summary>
-        /// Adds the rest handlers.
-        /// </summary>
-        /// <param name="services">The services.</param>
-        public void Init(IEnumerable<IService> services, IEnumerable<IWebSocketListener> listeners)
-        {
-            _webSocketListeners = listeners.ToArray();
-
-            ServiceController = new ServiceController();
-
-            _logger.LogInformation("Calling ServiceStack AppHost.Init");
-
-            var types = services.Select(r => r.GetType()).ToArray();
-
-            ServiceController.Init(this, types);
-
-            ResponseFilters = new Action<IRequest, IResponse, object>[]
-            {
-                new ResponseFilter(_logger).FilterResponse
-            };
-        }
 
         public RouteAttribute[] GetRouteAttributes(Type requestType)
         {

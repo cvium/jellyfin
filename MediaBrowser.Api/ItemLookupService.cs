@@ -16,84 +16,85 @@ using MediaBrowser.Controller.Providers;
 using MediaBrowser.Model.IO;
 using MediaBrowser.Model.Providers;
 using MediaBrowser.Model.Serialization;
-using MediaBrowser.Model.Services;
 using Microsoft.Extensions.Logging;
+using ServiceStack;
+using IReturnVoid = MediaBrowser.Model.Services.IReturnVoid;
 
 namespace MediaBrowser.Api
 {
     [Route("/Items/{Id}/ExternalIdInfos", "GET", Summary = "Gets external id infos for an item")]
     [Authenticated(Roles = "Admin")]
-    public class GetExternalIdInfos : IReturn<List<ExternalIdInfo>>
+    public class GetExternalIdInfos : Model.Services.IReturn<List<ExternalIdInfo>>
     {
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "Id", Description = "Item Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Id", Description = "Item Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public Guid Id { get; set; }
     }
 
     [Route("/Items/RemoteSearch/Movie", "POST")]
     [Authenticated]
-    public class GetMovieRemoteSearchResults : RemoteSearchQuery<MovieInfo>, IReturn<List<RemoteSearchResult>>
+    public class GetMovieRemoteSearchResults : RemoteSearchQuery<MovieInfo>, Model.Services.IReturn<List<RemoteSearchResult>>
     {
     }
 
     [Route("/Items/RemoteSearch/Trailer", "POST")]
     [Authenticated]
-    public class GetTrailerRemoteSearchResults : RemoteSearchQuery<TrailerInfo>, IReturn<List<RemoteSearchResult>>
+    public class GetTrailerRemoteSearchResults : RemoteSearchQuery<TrailerInfo>, Model.Services.IReturn<List<RemoteSearchResult>>
     {
     }
 
     [Route("/Items/RemoteSearch/MusicVideo", "POST")]
     [Authenticated]
-    public class GetMusicVideoRemoteSearchResults : RemoteSearchQuery<MusicVideoInfo>, IReturn<List<RemoteSearchResult>>
+    public class GetMusicVideoRemoteSearchResults : RemoteSearchQuery<MusicVideoInfo>, Model.Services.IReturn<List<RemoteSearchResult>>
     {
     }
 
     [Route("/Items/RemoteSearch/Series", "POST")]
     [Authenticated]
-    public class GetSeriesRemoteSearchResults : RemoteSearchQuery<SeriesInfo>, IReturn<List<RemoteSearchResult>>
+    public class GetSeriesRemoteSearchResults : RemoteSearchQuery<SeriesInfo>, Model.Services.IReturn<List<RemoteSearchResult>>
     {
     }
 
     [Route("/Items/RemoteSearch/BoxSet", "POST")]
     [Authenticated]
-    public class GetBoxSetRemoteSearchResults : RemoteSearchQuery<BoxSetInfo>, IReturn<List<RemoteSearchResult>>
+    public class GetBoxSetRemoteSearchResults : RemoteSearchQuery<BoxSetInfo>, Model.Services.IReturn<List<RemoteSearchResult>>
     {
     }
 
     [Route("/Items/RemoteSearch/MusicArtist", "POST")]
     [Authenticated]
-    public class GetMusicArtistRemoteSearchResults : RemoteSearchQuery<ArtistInfo>, IReturn<List<RemoteSearchResult>>
+    public class GetMusicArtistRemoteSearchResults : RemoteSearchQuery<ArtistInfo>, Model.Services.IReturn<List<RemoteSearchResult>>
     {
     }
 
     [Route("/Items/RemoteSearch/MusicAlbum", "POST")]
     [Authenticated]
-    public class GetMusicAlbumRemoteSearchResults : RemoteSearchQuery<AlbumInfo>, IReturn<List<RemoteSearchResult>>
+    public class GetMusicAlbumRemoteSearchResults : RemoteSearchQuery<AlbumInfo>, Model.Services.IReturn<List<RemoteSearchResult>>
     {
     }
 
     [Route("/Items/RemoteSearch/Person", "POST")]
     [Authenticated(Roles = "Admin")]
-    public class GetPersonRemoteSearchResults : RemoteSearchQuery<PersonLookupInfo>, IReturn<List<RemoteSearchResult>>
+    public class GetPersonRemoteSearchResults : RemoteSearchQuery<PersonLookupInfo>, Model.Services.IReturn<List<RemoteSearchResult>>
     {
     }
 
     [Route("/Items/RemoteSearch/Book", "POST")]
     [Authenticated]
-    public class GetBookRemoteSearchResults : RemoteSearchQuery<BookInfo>, IReturn<List<RemoteSearchResult>>
+    public class GetBookRemoteSearchResults : RemoteSearchQuery<BookInfo>, Model.Services.IReturn<List<RemoteSearchResult>>
     {
     }
 
     [Route("/Items/RemoteSearch/Image", "GET", Summary = "Gets a remote image")]
     public class GetRemoteSearchImage
     {
-        [ApiMember(Name = "ImageUrl", Description = "The image url", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "ImageUrl", Description = "The image url", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "GET")]
         public string ImageUrl { get; set; }
 
-        [ApiMember(Name = "ProviderName", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "ProviderName", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "GET")]
         public string ProviderName { get; set; }
     }
 
@@ -101,10 +102,10 @@ namespace MediaBrowser.Api
     [Authenticated(Roles = "Admin")]
     public class ApplySearchCriteria : RemoteSearchResult, IReturnVoid
     {
-        [ApiMember(Name = "Id", Description = "The item id", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Id", Description = "The item id", IsRequired = true, DataType = "string", ParameterType = "query", Verb = "POST")]
         public string Id { get; set; }
 
-        [ApiMember(Name = "ReplaceAllImages", Description = "Whether or not to replace all images", IsRequired = false, DataType = "boolean", ParameterType = "query", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "ReplaceAllImages", Description = "Whether or not to replace all images", IsRequired = false, DataType = "boolean", ParameterType = "query", Verb = "POST")]
         public bool ReplaceAllImages { get; set; }
 
         public ApplySearchCriteria()

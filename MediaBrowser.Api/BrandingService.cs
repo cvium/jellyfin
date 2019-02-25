@@ -1,11 +1,11 @@
 using MediaBrowser.Common.Configuration;
 using MediaBrowser.Model.Branding;
-using MediaBrowser.Model.Services;
+using ServiceStack;
 
 namespace MediaBrowser.Api
 {
     [Route("/Branding/Configuration", "GET", Summary = "Gets branding configuration")]
-    public class GetBrandingOptions : IReturn<BrandingOptions>
+    public class GetBrandingOptions : Model.Services.IReturn<BrandingOptions>
     {
     }
 

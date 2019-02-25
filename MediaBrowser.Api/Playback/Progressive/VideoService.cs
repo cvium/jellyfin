@@ -12,6 +12,7 @@ using MediaBrowser.Model.IO;
 using MediaBrowser.Model.Serialization;
 using MediaBrowser.Model.Services;
 using MediaBrowser.Model.System;
+using ServiceStack;
 
 namespace MediaBrowser.Api.Playback.Progressive
 {

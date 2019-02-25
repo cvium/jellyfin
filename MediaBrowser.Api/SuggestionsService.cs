@@ -7,12 +7,12 @@ using MediaBrowser.Controller.Net;
 using MediaBrowser.Model.Dto;
 using MediaBrowser.Model.Entities;
 using MediaBrowser.Model.Querying;
-using MediaBrowser.Model.Services;
+using ServiceStack;
 
 namespace MediaBrowser.Api
 {
     [Route("/Users/{UserId}/Suggestions", "GET", Summary = "Gets items based on a query.")]
-    public class GetSuggestedItems : IReturn<QueryResult<BaseItemDto>>
+    public class GetSuggestedItems : Model.Services.IReturn<QueryResult<BaseItemDto>>
     {
         public string MediaType { get; set; }
         public string Type { get; set; }

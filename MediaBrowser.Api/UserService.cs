@@ -11,8 +11,9 @@ using MediaBrowser.Controller.Net;
 using MediaBrowser.Controller.Session;
 using MediaBrowser.Model.Configuration;
 using MediaBrowser.Model.Dto;
-using MediaBrowser.Model.Services;
 using MediaBrowser.Model.Users;
+using ServiceStack;
+using IReturnVoid = MediaBrowser.Model.Services.IReturnVoid;
 
 namespace MediaBrowser.Api
 {
@@ -21,20 +22,20 @@ namespace MediaBrowser.Api
     /// </summary>
     [Route("/Users", "GET", Summary = "Gets a list of users")]
     [Authenticated]
-    public class GetUsers : IReturn<UserDto[]>
+    public class GetUsers : Model.Services.IReturn<UserDto[]>
     {
-        [ApiMember(Name = "IsHidden", Description = "Optional filter by IsHidden=true or false", IsRequired = false, DataType = "bool", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "IsHidden", Description = "Optional filter by IsHidden=true or false", IsRequired = false, DataType = "bool", ParameterType = "query", Verb = "GET")]
         public bool? IsHidden { get; set; }
 
-        [ApiMember(Name = "IsDisabled", Description = "Optional filter by IsDisabled=true or false", IsRequired = false, DataType = "bool", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "IsDisabled", Description = "Optional filter by IsDisabled=true or false", IsRequired = false, DataType = "bool", ParameterType = "query", Verb = "GET")]
         public bool? IsDisabled { get; set; }
 
-        [ApiMember(Name = "IsGuest", Description = "Optional filter by IsGuest=true or false", IsRequired = false, DataType = "bool", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "IsGuest", Description = "Optional filter by IsGuest=true or false", IsRequired = false, DataType = "bool", ParameterType = "query", Verb = "GET")]
         public bool? IsGuest { get; set; }
     }
 
     [Route("/Users/Public", "GET", Summary = "Gets a list of publicly visible users for display on a login screen.")]
-    public class GetPublicUsers : IReturn<UserDto[]>
+    public class GetPublicUsers : Model.Services.IReturn<UserDto[]>
     {
     }
 
@@ -43,13 +44,13 @@ namespace MediaBrowser.Api
     /// </summary>
     [Route("/Users/{Id}", "GET", Summary = "Gets a user by Id")]
     [Authenticated(EscapeParentalControl = true)]
-    public class GetUser : IReturn<UserDto>
+    public class GetUser : Model.Services.IReturn<UserDto>
     {
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "User Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "User Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public Guid Id { get; set; }
     }
 
@@ -64,7 +65,7 @@ namespace MediaBrowser.Api
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "User Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "DELETE")]
+        [Model.Services.ApiMember(Name = "User Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "DELETE")]
         public Guid Id { get; set; }
     }
 
@@ -72,23 +73,23 @@ namespace MediaBrowser.Api
     /// Class AuthenticateUser
     /// </summary>
     [Route("/Users/{Id}/Authenticate", "POST", Summary = "Authenticates a user")]
-    public class AuthenticateUser : IReturn<AuthenticationResult>
+    public class AuthenticateUser : Model.Services.IReturn<AuthenticationResult>
     {
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "User Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "User Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
         public Guid Id { get; set; }
 
-        [ApiMember(Name = "Pw", IsRequired = true, DataType = "string", ParameterType = "body", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Pw", IsRequired = true, DataType = "string", ParameterType = "body", Verb = "POST")]
         public string Pw { get; set; }
 
         /// <summary>
         /// Gets or sets the password.
         /// </summary>
         /// <value>The password.</value>
-        [ApiMember(Name = "Password", IsRequired = true, DataType = "string", ParameterType = "body", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Password", IsRequired = true, DataType = "string", ParameterType = "body", Verb = "POST")]
         public string Password { get; set; }
     }
 
@@ -96,23 +97,23 @@ namespace MediaBrowser.Api
     /// Class AuthenticateUser
     /// </summary>
     [Route("/Users/AuthenticateByName", "POST", Summary = "Authenticates a user")]
-    public class AuthenticateUserByName : IReturn<AuthenticationResult>
+    public class AuthenticateUserByName : Model.Services.IReturn<AuthenticationResult>
     {
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "Username", IsRequired = true, DataType = "string", ParameterType = "body", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Username", IsRequired = true, DataType = "string", ParameterType = "body", Verb = "POST")]
         public string Username { get; set; }
 
         /// <summary>
         /// Gets or sets the password.
         /// </summary>
         /// <value>The password.</value>
-        [ApiMember(Name = "Password", IsRequired = true, DataType = "string", ParameterType = "body", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Password", IsRequired = true, DataType = "string", ParameterType = "body", Verb = "POST")]
         public string Password { get; set; }
 
-        [ApiMember(Name = "Pw", IsRequired = true, DataType = "string", ParameterType = "body", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Pw", IsRequired = true, DataType = "string", ParameterType = "body", Verb = "POST")]
         public string Pw { get; set; }
     }
 
@@ -190,7 +191,7 @@ namespace MediaBrowser.Api
     [Authenticated(Roles = "admin")]
     public class UpdateUserPolicy : UserPolicy, IReturnVoid
     {
-        [ApiMember(Name = "User Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "User Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
         public Guid Id { get; set; }
     }
 
@@ -201,7 +202,7 @@ namespace MediaBrowser.Api
     [Authenticated]
     public class UpdateUserConfiguration : UserConfiguration, IReturnVoid
     {
-        [ApiMember(Name = "User Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "User Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
         public Guid Id { get; set; }
     }
 
@@ -210,23 +211,23 @@ namespace MediaBrowser.Api
     /// </summary>
     [Route("/Users/New", "POST", Summary = "Creates a user")]
     [Authenticated(Roles = "Admin")]
-    public class CreateUserByName : IReturn<UserDto>
+    public class CreateUserByName : Model.Services.IReturn<UserDto>
     {
-        [ApiMember(Name = "Name", IsRequired = true, DataType = "string", ParameterType = "body", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Name", IsRequired = true, DataType = "string", ParameterType = "body", Verb = "POST")]
         public string Name { get; set; }
     }
 
     [Route("/Users/ForgotPassword", "POST", Summary = "Initiates the forgot password process for a local user")]
-    public class ForgotPassword : IReturn<ForgotPasswordResult>
+    public class ForgotPassword : Model.Services.IReturn<ForgotPasswordResult>
     {
-        [ApiMember(Name = "EnteredUsername", IsRequired = false, DataType = "string", ParameterType = "body", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "EnteredUsername", IsRequired = false, DataType = "string", ParameterType = "body", Verb = "POST")]
         public string EnteredUsername { get; set; }
     }
 
     [Route("/Users/ForgotPassword/Pin", "POST", Summary = "Redeems a forgot password pin")]
-    public class ForgotPasswordPin : IReturn<PinRedeemResult>
+    public class ForgotPasswordPin : Model.Services.IReturn<PinRedeemResult>
     {
-        [ApiMember(Name = "Pin", IsRequired = false, DataType = "string", ParameterType = "body", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Pin", IsRequired = false, DataType = "string", ParameterType = "body", Verb = "POST")]
         public string Pin { get; set; }
     }
 

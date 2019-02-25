@@ -4,8 +4,9 @@ using System.Linq;
 using MediaBrowser.Common.Extensions;
 using MediaBrowser.Controller.Configuration;
 using MediaBrowser.Controller.Net;
-using MediaBrowser.Model.Services;
 using MediaBrowser.Model.Tasks;
+using ServiceStack;
+using IReturnVoid = MediaBrowser.Model.Services.IReturnVoid;
 
 namespace MediaBrowser.Api.ScheduledTasks
 {
@@ -13,13 +14,13 @@ namespace MediaBrowser.Api.ScheduledTasks
     /// Class GetScheduledTask
     /// </summary>
     [Route("/ScheduledTasks/{Id}", "GET", Summary = "Gets a scheduled task, by Id")]
-    public class GetScheduledTask : IReturn<TaskInfo>
+    public class GetScheduledTask : Model.Services.IReturn<TaskInfo>
     {
         /// <summary>
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string Id { get; set; }
     }
 
@@ -27,12 +28,12 @@ namespace MediaBrowser.Api.ScheduledTasks
     /// Class GetScheduledTasks
     /// </summary>
     [Route("/ScheduledTasks", "GET", Summary = "Gets scheduled tasks")]
-    public class GetScheduledTasks : IReturn<TaskInfo[]>
+    public class GetScheduledTasks : Model.Services.IReturn<TaskInfo[]>
     {
-        [ApiMember(Name = "IsHidden", Description = "Optional filter tasks that are hidden, or not.", IsRequired = false, DataType = "bool", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "IsHidden", Description = "Optional filter tasks that are hidden, or not.", IsRequired = false, DataType = "bool", ParameterType = "query", Verb = "GET")]
         public bool? IsHidden { get; set; }
 
-        [ApiMember(Name = "IsEnabled", Description = "Optional filter tasks that are enabled, or not.", IsRequired = false, DataType = "bool", ParameterType = "query", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "IsEnabled", Description = "Optional filter tasks that are enabled, or not.", IsRequired = false, DataType = "bool", ParameterType = "query", Verb = "GET")]
         public bool? IsEnabled { get; set; }
     }
 
@@ -46,7 +47,7 @@ namespace MediaBrowser.Api.ScheduledTasks
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
         public string Id { get; set; }
     }
 
@@ -60,7 +61,7 @@ namespace MediaBrowser.Api.ScheduledTasks
         /// Gets or sets the id.
         /// </summary>
         /// <value>The id.</value>
-        [ApiMember(Name = "Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "DELETE")]
+        [Model.Services.ApiMember(Name = "Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "DELETE")]
         public string Id { get; set; }
     }
 
@@ -74,7 +75,7 @@ namespace MediaBrowser.Api.ScheduledTasks
         /// Gets or sets the task id.
         /// </summary>
         /// <value>The task id.</value>
-        [ApiMember(Name = "Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Id", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
         public string Id { get; set; }
     }
 

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using MediaBrowser.Model.Events;
-using MediaBrowser.Model.Services;
+using ServiceStack;
 
 namespace MediaBrowser.Controller.Net
 {
@@ -25,11 +25,6 @@ namespace MediaBrowser.Controller.Net
         /// Occurs when [web socket connected].
         /// </summary>
         event EventHandler<GenericEventArgs<IWebSocketConnection>> WebSocketConnected;
-
-        /// <summary>
-        /// Inits this instance.
-        /// </summary>
-        void Init(IEnumerable<IService> services, IEnumerable<IWebSocketListener> listener);
 
         /// <summary>
         /// If set, all requests will respond with this message

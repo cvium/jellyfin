@@ -9,6 +9,8 @@ using MediaBrowser.Model.Configuration;
 using MediaBrowser.Model.IO;
 using MediaBrowser.Model.Serialization;
 using MediaBrowser.Model.Services;
+using ServiceStack;
+using IReturnVoid = MediaBrowser.Model.Services.IReturnVoid;
 
 namespace MediaBrowser.Api
 {
@@ -17,7 +19,7 @@ namespace MediaBrowser.Api
     /// </summary>
     [Route("/System/Configuration", "GET", Summary = "Gets application configuration")]
     [Authenticated]
-    public class GetConfiguration : IReturn<ServerConfiguration>
+    public class GetConfiguration : Model.Services.IReturn<ServerConfiguration>
     {
 
     }
@@ -26,7 +28,7 @@ namespace MediaBrowser.Api
     [Authenticated(AllowBeforeStartupWizard = true)]
     public class GetNamedConfiguration
     {
-        [ApiMember(Name = "Key", Description = "Key", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Key", Description = "Key", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string Key { get; set; }
     }
 
@@ -43,7 +45,7 @@ namespace MediaBrowser.Api
     [Authenticated(Roles = "Admin")]
     public class UpdateNamedConfiguration : IReturnVoid, IRequiresRequestStream
     {
-        [ApiMember(Name = "Key", Description = "Key", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
+        [Model.Services.ApiMember(Name = "Key", Description = "Key", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "GET")]
         public string Key { get; set; }
 
         public Stream RequestStream { get; set; }
@@ -51,7 +53,7 @@ namespace MediaBrowser.Api
 
     [Route("/System/Configuration/MetadataOptions/Default", "GET", Summary = "Gets a default MetadataOptions object")]
     [Authenticated(Roles = "Admin")]
-    public class GetDefaultMetadataOptions : IReturn<MetadataOptions>
+    public class GetDefaultMetadataOptions : Model.Services.IReturn<MetadataOptions>
     {
 
     }
@@ -60,9 +62,9 @@ namespace MediaBrowser.Api
     [Authenticated(Roles = "Admin", AllowBeforeStartupWizard = true)]
     public class UpdateMediaEncoderPath : IReturnVoid
     {
-        [ApiMember(Name = "Path", Description = "Path", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "Path", Description = "Path", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
         public string Path { get; set; }
-        [ApiMember(Name = "PathType", Description = "PathType", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
+        [Model.Services.ApiMember(Name = "PathType", Description = "PathType", IsRequired = true, DataType = "string", ParameterType = "path", Verb = "POST")]
         public string PathType { get; set; }
     }
 
