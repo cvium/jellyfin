@@ -55,6 +55,7 @@ using MediaBrowser.Common.Net;
 using MediaBrowser.Common.Plugins;
 using MediaBrowser.Common.Updates;
 using MediaBrowser.Controller;
+using MediaBrowser.Controller.Authentication;
 using MediaBrowser.Controller.Channels;
 using MediaBrowser.Controller.Chapters;
 using MediaBrowser.Controller.ClientEvent;
@@ -136,6 +137,8 @@ namespace Emby.Server.Implementations
         /// </summary>
         /// <value>All concrete types.</value>
         private Type[] _allConcreteTypes;
+
+        private Assembly[] _allAssemblies;
 
         private DeviceId _deviceId;
 
@@ -539,6 +542,19 @@ namespace Emby.Server.Implementations
             RegisterServices(serviceCollection);
 
             _pluginManager.RegisterServices(serviceCollection);
+
+            serviceCollection.Scan(s =>
+            {
+                s.FromAssemblies(_allAssemblies)
+                    .AddClasses(c => c.AssignableTo<IPasswordResetProvider>())
+                    .AsImplementedInterfaces()
+                    .WithSingletonLifetime()
+
+                    .AddClasses(c => c.AssignableTo<IAuthenticationProvider>())
+                    .AsImplementedInterfaces()
+                    .WithSingletonLifetime();
+            });
+
         }
 
         /// <summary>
@@ -813,7 +829,8 @@ namespace Emby.Server.Implementations
         {
             Logger.LogInformation("Loading assemblies");
 
-            _allConcreteTypes = GetTypes(GetComposablePartAssemblies()).ToArray();
+            _allAssemblies = GetComposablePartAssemblies().ToArray();
+            _allConcreteTypes = GetTypes(_allAssemblies).ToArray();
         }
 
         private IEnumerable<Type> GetTypes(IEnumerable<Assembly> assemblies)

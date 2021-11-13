@@ -60,6 +60,8 @@ namespace Jellyfin.Server.Implementations.Users
         /// <param name="appHost">The application host.</param>
         /// <param name="imageProcessor">The image processor.</param>
         /// <param name="logger">The logger.</param>
+        /// <param name="passwordResetProviders">The password reset providers.</param>
+        /// <param name="authenticationProviders">The authentication providers.</param>
         public UserManager(
             JellyfinDbProvider dbProvider,
             IEventManager eventManager,
@@ -67,7 +69,9 @@ namespace Jellyfin.Server.Implementations.Users
             INetworkManager networkManager,
             IApplicationHost appHost,
             IImageProcessor imageProcessor,
-            ILogger<UserManager> logger)
+            ILogger<UserManager> logger,
+            IEnumerable<IPasswordResetProvider> passwordResetProviders,
+            IEnumerable<IAuthenticationProvider> authenticationProviders)
         {
             _dbProvider = dbProvider;
             _eventManager = eventManager;
@@ -77,8 +81,8 @@ namespace Jellyfin.Server.Implementations.Users
             _imageProcessor = imageProcessor;
             _logger = logger;
 
-            _passwordResetProviders = appHost.GetExports<IPasswordResetProvider>();
-            _authenticationProviders = appHost.GetExports<IAuthenticationProvider>();
+            _passwordResetProviders = passwordResetProviders.ToArray();
+            _authenticationProviders = authenticationProviders.ToArray();
 
             _invalidAuthProvider = _authenticationProviders.OfType<InvalidAuthProvider>().First();
             _defaultAuthenticationProvider = _authenticationProviders.OfType<DefaultAuthenticationProvider>().First();
