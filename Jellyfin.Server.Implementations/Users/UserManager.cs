@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using AsyncKeyedLock;
 using Jellyfin.Data;
 using Jellyfin.Data.Enums;
 using Jellyfin.Data.Events;
@@ -35,7 +36,7 @@ namespace Jellyfin.Server.Implementations.Users
     /// <summary>
     /// Manages the creation and retrieval of <see cref="User"/> instances.
     /// </summary>
-    public partial class UserManager : IUserManager
+    public partial class UserManager : IUserManager, IDisposable
     {
         private readonly IDbContextFactory<JellyfinDbContext> _dbProvider;
         private readonly IEventManager _eventManager;
@@ -51,6 +52,7 @@ namespace Jellyfin.Server.Implementations.Users
         private readonly IServerConfigurationManager _serverConfigurationManager;
 
         private readonly IDictionary<Guid, User> _users;
+        private readonly AsyncKeyedLocker<Guid> _userLocks = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserManager"/> class.
@@ -173,6 +175,7 @@ namespace Jellyfin.Server.Implementations.Users
 #pragma warning restore CA1311 // Specify a culture or use an invariant version to avoid implicit dependency on current culture
 #pragma warning restore CA1862 // Use the 'StringComparison' method overloads to perform case-insensitive string comparisons
 
+                dbContext.Users.Attach(user);
                 user.Username = newName;
                 await UpdateUserInternalAsync(dbContext, user).ConfigureAwait(false);
             }
@@ -188,6 +191,23 @@ namespace Jellyfin.Server.Implementations.Users
             var dbContext = await _dbProvider.CreateDbContextAsync().ConfigureAwait(false);
             await using (dbContext.ConfigureAwait(false))
             {
+                await UpdateUserInternalAsync(dbContext, user).ConfigureAwait(false);
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task UpdateUserActivityAsync(User user, DateTime? lastActivity = null, DateTime? lastLogin = null)
+        {
+            var dbContext = await _dbProvider.CreateDbContextAsync().ConfigureAwait(false);
+            await using (dbContext.ConfigureAwait(false))
+            {
+                user.LastActivityDate = lastActivity ?? DateTime.UtcNow;
+                if (lastLogin.HasValue)
+                {
+                    user.LastLoginDate = lastLogin.Value;
+                    user.InvalidLoginAttemptCount = 0;
+                }
+
                 await UpdateUserInternalAsync(dbContext, user).ConfigureAwait(false);
             }
         }
@@ -231,7 +251,7 @@ namespace Jellyfin.Server.Implementations.Users
             await using (dbContext.ConfigureAwait(false))
             {
                 newUser = await CreateUserInternalAsync(name, dbContext).ConfigureAwait(false);
-
+                using var userLock = await _userLocks.LockAsync(newUser.Id).ConfigureAwait(false);
                 dbContext.Users.Add(newUser);
                 await dbContext.SaveChangesAsync().ConfigureAwait(false);
                 _users.Add(newUser.Id, newUser);
@@ -272,7 +292,7 @@ namespace Jellyfin.Server.Implementations.Users
             var dbContext = await _dbProvider.CreateDbContextAsync().ConfigureAwait(false);
             await using (dbContext.ConfigureAwait(false))
             {
-                dbContext.Users.Attach(user);
+                using var userLock = await _userLocks.LockAsync(user.Id).ConfigureAwait(false);
                 dbContext.Users.Remove(user);
                 await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
@@ -403,7 +423,7 @@ namespace Jellyfin.Server.Implementations.Users
                 throw new ArgumentNullException(nameof(username));
             }
 
-            var user = Users.FirstOrDefault(i => string.Equals(username, i.Username, StringComparison.OrdinalIgnoreCase));
+            var user = GetUserByName(username);
             var authResult = await AuthenticateLocalUser(username, password, user)
                 .ConfigureAwait(false);
             var authenticationProvider = authResult.AuthenticationProvider;
@@ -483,13 +503,9 @@ namespace Jellyfin.Server.Implementations.Users
             // Update LastActivityDate and LastLoginDate, then save
             if (success)
             {
-                if (isUserSession)
-                {
-                    user.LastActivityDate = user.LastLoginDate = DateTime.UtcNow;
-                }
+                var now = DateTime.UtcNow;
+                await UpdateUserActivityAsync(user, now, now).ConfigureAwait(false);
 
-                user.InvalidLoginAttemptCount = 0;
-                await UpdateUserAsync(user).ConfigureAwait(false);
                 _logger.LogInformation("Authentication request for {UserName} has succeeded.", user.Username);
             }
             else
@@ -513,11 +529,6 @@ namespace Jellyfin.Server.Implementations.Users
             var result = await passwordResetProvider
                 .StartForgotPasswordProcess(user, enteredUsername, isInNetwork)
                 .ConfigureAwait(false);
-
-            if (user is not null && isInNetwork)
-            {
-                await UpdateUserAsync(user).ConfigureAwait(false);
-            }
 
             return result;
         }
@@ -637,9 +648,7 @@ namespace Jellyfin.Server.Implementations.Users
                 user.SetPreference(PreferenceKind.MyMediaExcludes, config.MyMediaExcludes);
                 user.SetPreference(PreferenceKind.LatestItemExcludes, config.LatestItemsExcludes);
 
-                dbContext.Update(user);
-                _users[user.Id] = user;
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
+                await UpdateUserAsync(user).ConfigureAwait(false);
             }
         }
 
@@ -715,9 +724,7 @@ namespace Jellyfin.Server.Implementations.Users
                 user.SetPreference(PreferenceKind.EnabledFolders, policy.EnabledFolders);
                 user.SetPreference(PreferenceKind.EnableContentDeletionFromFolders, policy.EnableContentDeletionFromFolders);
 
-                dbContext.Update(user);
-                _users[user.Id] = user;
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
+                await UpdateUserAsync(user).ConfigureAwait(false);
             }
         }
 
@@ -732,6 +739,7 @@ namespace Jellyfin.Server.Implementations.Users
             var dbContext = await _dbProvider.CreateDbContextAsync().ConfigureAwait(false);
             await using (dbContext.ConfigureAwait(false))
             {
+                using var userLock = await _userLocks.LockAsync(user.Id).ConfigureAwait(false);
                 dbContext.Remove(user.ProfileImage);
                 await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
@@ -888,10 +896,34 @@ namespace Jellyfin.Server.Implementations.Users
 
         private async Task UpdateUserInternalAsync(JellyfinDbContext dbContext, User user)
         {
-            dbContext.Users.Attach(user);
-            dbContext.Entry(user).State = EntityState.Modified;
+            using var userLock = await _userLocks.LockAsync(user.Id).ConfigureAwait(false);
+            if (dbContext.Entry(user).State == EntityState.Detached)
+            {
+                dbContext.Users.Attach(user);
+                dbContext.Entry(user).State = EntityState.Modified;
+            }
+
             _users[user.Id] = user;
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing">A value indicating whether to dispose managed resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _userLocks.Dispose();
+            }
         }
     }
 }

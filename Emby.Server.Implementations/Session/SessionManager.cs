@@ -268,8 +268,7 @@ namespace Emby.Server.Implementations.Session
                 {
                     try
                     {
-                        user.LastActivityDate = activityDate;
-                        await _userManager.UpdateUserAsync(user).ConfigureAwait(false);
+                        await _userManager.UpdateUserActivityAsync(user, activityDate).ConfigureAwait(false);
                     }
                     catch (DbUpdateConcurrencyException e)
                     {

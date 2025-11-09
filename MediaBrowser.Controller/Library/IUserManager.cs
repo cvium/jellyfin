@@ -65,13 +65,24 @@ namespace MediaBrowser.Controller.Library
         Task RenameUser(User user, string newName);
 
         /// <summary>
-        /// Updates the user.
+        /// Updates all the user's properties. This can be a heavy operation, use it sparingly.
         /// </summary>
         /// <param name="user">The user.</param>
         /// <exception cref="ArgumentNullException">If user is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">If the provided user doesn't exist.</exception>
         /// <returns>A task representing the update of the user.</returns>
         Task UpdateUserAsync(User user);
+
+        /// <summary>
+        /// Updates the user activity.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <param name="lastActivity">The datetime of the last user activity.</param>
+        /// <param name="lastLogin">The datetime of when the user last logged in.</param>
+        /// <exception cref="ArgumentNullException">If user is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException">If the provided user doesn't exist.</exception>
+        /// <returns>A task representing the update of the user.</returns>
+        Task UpdateUserActivityAsync(User user, DateTime? lastActivity = null, DateTime? lastLogin = null);
 
         /// <summary>
         /// Creates a user with the specified name.
@@ -144,7 +155,6 @@ namespace MediaBrowser.Controller.Library
         /// <summary>
         /// This method updates the user's configuration.
         /// This is only included as a stopgap until the new API, using this internally is not recommended.
-        /// Instead, modify the user object directly, then call <see cref="UpdateUserAsync"/>.
         /// </summary>
         /// <param name="userId">The user's Id.</param>
         /// <param name="config">The request containing the new user configuration.</param>
@@ -154,7 +164,6 @@ namespace MediaBrowser.Controller.Library
         /// <summary>
         /// This method updates the user's policy.
         /// This is only included as a stopgap until the new API, using this internally is not recommended.
-        /// Instead, modify the user object directly, then call <see cref="UpdateUserAsync"/>.
         /// </summary>
         /// <param name="userId">The user's Id.</param>
         /// <param name="policy">The request containing the new user policy.</param>
