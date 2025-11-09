@@ -201,6 +201,7 @@ namespace Jellyfin.Server.Implementations.Users
             var dbContext = await _dbProvider.CreateDbContextAsync().ConfigureAwait(false);
             await using (dbContext.ConfigureAwait(false))
             {
+                dbContext.Users.Attach(user);
                 user.LastActivityDate = lastActivity ?? DateTime.UtcNow;
                 if (lastLogin.HasValue)
                 {
